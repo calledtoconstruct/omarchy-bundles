@@ -1,0 +1,6 @@
+[project]
+name = "local-ai"
+version = "0.1.0"
+description = "Local Ollama client for this project"
+requires-python = ">=3.11"
+dependencies = []

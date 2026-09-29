@@ -1,0 +1,7 @@
+[
+  {
+    "id": "capital",
+    "prompt": "Name the capital of France. Reply with the city name only.",
+    "expected": "Paris"
+  }
+]

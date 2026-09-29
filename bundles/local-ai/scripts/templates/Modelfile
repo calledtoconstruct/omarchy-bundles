@@ -1,0 +1,6 @@
+FROM llama3.2:3b
+PARAMETER temperature 0.2
+PARAMETER num_ctx 4096
+SYSTEM """
+You are a local assistant. Answer from the conversation. When you are unsure, say so. The editable copy of this prompt is prompts/system.md.
+"""

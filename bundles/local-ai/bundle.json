@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "packageType": "bundle",
+  "id": "local-ai",
+  "name": "Local AI",
+  "version": "1.0.0",
+  "description": "Packages, bar plugins, and a project layout for running and building with local models.",
+  "packages": ["llama-cpp", "nvtop", "uv"],
+  "plugins": [
+    "https://github.com/0xSero/omarchy-local-ai.git",
+    "https://github.com/ssandys/colophon.git",
+    "https://github.com/25cent9/omarchy-lmstudio-plugin.git",
+    "https://github.com/crmne/omastats.git"
+  ],
+  "skills": ["skills/ollama-models", "skills/local-evals"],
+  "config": [],
+  "conflicts": [],
+  "project": {
+    "root": "~/AI",
+    "layout": ["models", "prompts", "evals", "app", "data"],
+    "create": "scripts/create-project.sh"
+  }
+}
