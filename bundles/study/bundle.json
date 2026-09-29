@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "packageType": "bundle",
+  "id": "study",
+  "name": "Study",
+  "version": "1.0.0",
+  "description": "Packages, bar plugins, and a course folder for students and self-learners.",
+  "packages": [
+    "anki",
+    "typst",
+    "pandoc-cli",
+    "zathura",
+    "zathura-pdf-mupdf",
+    "harper",
+    "zotero-bin"
+  ],
+  "plugins": [
+    "https://github.com/yamz8/omanki.git",
+    "https://github.com/TyRichards/omarchy-clarity.git",
+    "https://github.com/pjgeutjens/omarchy-clockwork.git",
+    "https://github.com/LucaNerlich/obsidian-daily-qs.git"
+  ],
+  "skills": [
+    "skills/course-notes",
+    "skills/flashcards",
+    "skills/research-papers"
+  ],
+  "config": [],
+  "conflicts": [],
+  "project": {
+    "root": "~/School",
+    "layout": ["notes", "lectures", "readings", "assignments", "flashcards"],
+    "create": "scripts/create-project.sh"
+  }
+}
