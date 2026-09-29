@@ -1,0 +1,40 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this catalog
+        uses: actions/checkout@v4
+
+      - name: Checkout the bundle commands
+        uses: actions/checkout@v4
+        with:
+          repository: calledtoconstruct/omarchy
+          ref: bundles
+          path: omarchy
+
+      - name: Install jq, curl, and shellcheck
+        run: sudo apt-get update && sudo apt-get install -y jq curl shellcheck
+
+      - name: Shellcheck
+        run: |
+          mapfile -d '' files < <(find scripts bundles -type f -name '*.sh' -print0)
+          if (( ${#files[@]} == 0 )); then
+            echo "No scripts to check."
+            exit 0
+          fi
+          shellcheck "${files[@]}"
+
+      - name: Validate bundles
+        run: OMARCHY_PATH="$PWD/omarchy" scripts/validate-all.sh
+
+      - name: Check packages
+        run: scripts/check-packages.sh
