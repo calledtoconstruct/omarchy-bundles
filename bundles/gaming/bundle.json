@@ -11,9 +11,9 @@
     "gamescope",
     "goverlay",
     "lib32-gamemode",
-    "lib32-mangohud",
-    "protonup-qt"
+    "lib32-mangohud"
   ],
+  "aurPackages": ["protonup-qt"],
   "plugins": [
     "https://github.com/silvaio/gamemode-switcher.git",
     "https://github.com/Prathamesh913/gamedock.git",

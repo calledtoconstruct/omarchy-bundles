@@ -6,6 +6,7 @@
   "version": "1.0.0",
   "description": "Packages, bar plugins, and a project layout for running and building with local models.",
   "packages": ["llama-cpp", "nvtop", "uv"],
+  "aurPackages": [],
   "plugins": [
     "https://github.com/0xSero/omarchy-local-ai.git",
     "https://github.com/ssandys/colophon.git",

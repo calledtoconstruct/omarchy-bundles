@@ -11,9 +11,9 @@
     "pandoc-cli",
     "zathura",
     "zathura-pdf-mupdf",
-    "harper",
-    "zotero-bin"
+    "harper"
   ],
+  "aurPackages": ["zotero-bin"],
   "plugins": [
     "https://github.com/yamz8/omanki.git",
     "https://github.com/TyRichards/omarchy-clarity.git",

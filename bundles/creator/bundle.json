@@ -9,9 +9,9 @@
     "v4l2loopback-dkms",
     "v4l2loopback-utils",
     "easyeffects",
-    "audacity",
-    "obs-pipewire-audio-capture"
+    "audacity"
   ],
+  "aurPackages": ["obs-pipewire-audio-capture"],
   "plugins": [
     "https://github.com/tomdavenport/cam-stream.git",
     "https://github.com/kristoferlund/omarchy-webcam.git",

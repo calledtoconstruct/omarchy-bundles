@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# Confirm every package named by a bundle is in core, extra, or multilib,
-# or in the AUR. Warn for each AUR package. Fail if one is flagged out of date
-# or if a name exists in neither place.
+# Confirm every name in packages is in core, extra, or multilib, and every
+# name in aurPackages is in the AUR. Warn for each AUR package. Fail if an
+# AUR package is flagged out of date, if a name is in the wrong list, or if
+# a name exists in neither place.
 
 set -euo pipefail
 
@@ -44,39 +45,67 @@ maintainer_package_count() {
   jq -r '.resultcount' <<<"$body"
 }
 
+check_official() {
+  local pkg="$1"
+  checked=$((checked + 1))
+  official=$(official_count "$pkg")
+  if (( official > 0 )); then
+    return
+  fi
+  info=$(aur_lookup "$pkg")
+  found=$(jq -r '.resultcount' <<<"$info")
+  if (( found > 0 )); then
+    echo "Package ${pkg} from bundle ${bundle_id} is in the AUR. List it in aurPackages." >&2
+  else
+    echo "Package ${pkg} from bundle ${bundle_id} is not in core, extra, or multilib." >&2
+  fi
+  failed=1
+}
+
+check_aur() {
+  local pkg="$1"
+  checked=$((checked + 1))
+  official=$(official_count "$pkg")
+  if (( official > 0 )); then
+    echo "Package ${pkg} from bundle ${bundle_id} is in the official repositories. List it in packages." >&2
+    failed=1
+    return
+  fi
+
+  info=$(aur_lookup "$pkg")
+  found=$(jq -r '.resultcount' <<<"$info")
+  if (( found == 0 )); then
+    echo "AUR package ${pkg} from bundle ${bundle_id} is not in the AUR." >&2
+    failed=1
+    return
+  fi
+
+  maintainer=$(jq -r '.results[0].Maintainer // "orphaned"' <<<"$info")
+  votes=$(jq -r '.results[0].NumVotes' <<<"$info")
+  out_of_date=$(jq -r '.results[0].OutOfDate | if . == null then "no" else "yes" end' <<<"$info")
+  if [[ $maintainer == "orphaned" ]]; then
+    maintained=0
+  else
+    maintained=$(maintainer_package_count "$maintainer")
+  fi
+
+  echo "AUR warning: ${bundle_id} uses ${pkg} (maintainer: ${maintainer}, votes: ${votes}, maintainer packages: ${maintained}, out of date: ${out_of_date})"
+  if [[ $out_of_date == "yes" ]]; then
+    echo "AUR package ${pkg} from bundle ${bundle_id} is flagged out of date." >&2
+    failed=1
+  fi
+}
+
 for manifest in "${manifests[@]}"; do
   bundle_id=$(jq -r '.id' "$manifest")
   while IFS= read -r pkg; do
     [[ -n $pkg ]] || continue
-    checked=$((checked + 1))
-    official=$(official_count "$pkg")
-    if (( official > 0 )); then
-      continue
-    fi
-
-    info=$(aur_lookup "$pkg")
-    found=$(jq -r '.resultcount' <<<"$info")
-    if (( found == 0 )); then
-      echo "Package ${pkg} from bundle ${bundle_id} is not in core, extra, multilib, or the AUR." >&2
-      failed=1
-      continue
-    fi
-
-    maintainer=$(jq -r '.results[0].Maintainer // "orphaned"' <<<"$info")
-    votes=$(jq -r '.results[0].NumVotes' <<<"$info")
-    out_of_date=$(jq -r '.results[0].OutOfDate | if . == null then "no" else "yes" end' <<<"$info")
-    if [[ $maintainer == "orphaned" ]]; then
-      maintained=0
-    else
-      maintained=$(maintainer_package_count "$maintainer")
-    fi
-
-    echo "AUR warning: ${bundle_id} uses ${pkg} (maintainer: ${maintainer}, votes: ${votes}, maintainer packages: ${maintained}, out of date: ${out_of_date})"
-    if [[ $out_of_date == "yes" ]]; then
-      echo "AUR package ${pkg} from bundle ${bundle_id} is flagged out of date." >&2
-      failed=1
-    fi
+    check_official "$pkg"
   done < <(jq -r '.packages[]?' "$manifest")
+  while IFS= read -r pkg; do
+    [[ -n $pkg ]] || continue
+    check_aur "$pkg"
+  done < <(jq -r '.aurPackages[]?' "$manifest")
 done
 
 if (( failed )); then
