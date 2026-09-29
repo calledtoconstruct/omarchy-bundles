@@ -1,6 +1,6 @@
 # Omarchy bundles
 
-An Omarchy bundle is a folder of data for one activity. Its manifest lists the Arch packages to install, the shell plugins to add, the agent skills to link, the config files to copy, and an optional project layout. Installing a bundle copies that folder into `~/.local/share/omarchy/bundles/<id>/` and follows the list.
+An Omarchy bundle is a folder of data for one activity. Its manifest lists the Arch packages to install, the shell plugins to add, the agent skills to link, the config files to copy, and an optional project layout. Installing a bundle copies that folder into `~/.local/share/omarchy-bundles/<id>/` and follows the list.
 
 Nothing in the bundle runs during install. Packages go through `omarchy-pkg-add` and plugins through `omarchy-plugin-add`. A ledger records which bundle owns each package, plugin, skill link, and config file. Removing a bundle drops only what no remaining bundle still owns, and only what you had not already installed yourself.
 
