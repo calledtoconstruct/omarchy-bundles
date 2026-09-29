@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "packageType": "bundle",
+  "id": "webdev",
+  "name": "Web Developer",
+  "version": "1.0.0",
+  "description": "Packages, bar plugins, skills, and a project layout for building web apps on Omarchy.",
+  "packages": ["github-cli", "docker-buildx", "mkcert", "dbeaver"],
+  "plugins": [
+    "https://github.com/robzolkos/omarchy-github.git",
+    "https://github.com/ZerubbabelT/portwatch.git",
+    "https://github.com/Majkelll/omarchy-docker.git",
+    "https://github.com/dingyi/omaportless.git"
+  ],
+  "skills": ["skills/webdev-project", "skills/frontend-review"],
+  "config": [
+    {
+      "source": "config/editorconfig",
+      "target": "~/.config/omarchy-bundles/webdev/editorconfig"
+    }
+  ],
+  "conflicts": [],
+  "project": {
+    "root": "~/Work",
+    "layout": ["src", "docs", "infra"],
+    "create": "scripts/create-project.sh"
+  }
+}

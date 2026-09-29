@@ -35,9 +35,7 @@ omarchy bundle project new <id> <project-name>
 
 | Bundle | Who it is for | What it installs |
 | --- | --- | --- |
-| | | |
-
-No bundles yet.
+| [webdev](bundles/webdev/README.md) | Web and app developers | `github-cli`, `docker-buildx`, `mkcert`, `dbeaver`, four bar plugins, two skills, and a project layout |
 
 ## Safety
 
