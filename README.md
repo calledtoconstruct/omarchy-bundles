@@ -36,6 +36,7 @@ omarchy bundle project new <id> <project-name>
 | Bundle | Who it is for | What it installs |
 | --- | --- | --- |
 | [webdev](bundles/webdev/README.md) | Web and app developers | `github-cli`, `docker-buildx`, `mkcert`, `dbeaver`, four bar plugins, two skills, and a project layout |
+| [creator](bundles/creator/README.md) | Screencasters, YouTube, and streams | `v4l2loopback-dkms`, `v4l2loopback-utils`, `easyeffects`, `audacity`, one AUR plugin for OBS, five bar plugins, two skills, and a dated project |
 
 ## Safety
 

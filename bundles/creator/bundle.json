@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "packageType": "bundle",
+  "id": "creator",
+  "name": "Creator",
+  "version": "1.0.0",
+  "description": "Packages, bar plugins, and a dated project layout for screencasts, YouTube, and streams.",
+  "packages": [
+    "v4l2loopback-dkms",
+    "v4l2loopback-utils",
+    "easyeffects",
+    "audacity",
+    "obs-pipewire-audio-capture"
+  ],
+  "plugins": [
+    "https://github.com/tomdavenport/cam-stream.git",
+    "https://github.com/kristoferlund/omarchy-webcam.git",
+    "https://github.com/felixzsh/omarchy-key-visualizer.git",
+    "https://github.com/ssupt/omarchy-audio-control.git",
+    "https://github.com/gigasolo/omavoice.git"
+  ],
+  "skills": ["skills/video-production", "skills/publish"],
+  "config": [],
+  "conflicts": [],
+  "project": {
+    "root": "~/Videos/Projects",
+    "layout": ["script", "raw", "assets", "edit", "export"],
+    "create": "scripts/create-project.sh"
+  }
+}
