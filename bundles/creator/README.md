@@ -1,6 +1,6 @@
 # Creator
 
-For screencasters, YouTube videos, and streams on Omarchy. One install adds the capture packages that are not already on a default machine, five bar plugins, two agent skills, and a dated project under `~/Videos/Projects`.
+For screencasters, YouTube videos, and streams on Omarchy. One install adds the capture packages that are not already on a default machine, five bar plugins, two agent skills, and a dated project under `~/Videos/Projects`. The install notification opens `introduction.md`.
 
 ## What it installs
 

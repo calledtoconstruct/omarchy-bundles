@@ -5,6 +5,7 @@
   "name": "Web Developer",
   "version": "1.0.0",
   "description": "Packages, bar plugins, skills, and a project layout for building web apps on Omarchy.",
+  "introduction": "introduction.md",
   "packages": ["github-cli", "docker-buildx", "mkcert", "dbeaver"],
   "aurPackages": [],
   "plugins": [

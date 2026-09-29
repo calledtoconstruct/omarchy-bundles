@@ -1,6 +1,6 @@
 # Gaming
 
-For PC games on Omarchy. One install adds GameMode, MangoHud, Gamescope, Goverlay, and ProtonUp-Qt, plus three bar plugins, one agent skill, and a MangoHud config. There is no project layout. A bundle without `project` has nothing for `omarchy bundle project new` to create, and it has no launcher sequence. You install it, then start games from Steam, Heroic, or GameDock.
+For PC games on Omarchy. One install adds GameMode, MangoHud, Gamescope, Goverlay, and ProtonUp-Qt, plus three bar plugins, one agent skill, and a MangoHud config. There is no project layout. The install notification opens `introduction.md`. A bundle without `project` has nothing for `omarchy bundle project new` to create, and it has no launcher sequence. You install it, then start games from Steam, Heroic, or GameDock.
 
 ## What it installs
 

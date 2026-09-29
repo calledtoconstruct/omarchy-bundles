@@ -1,6 +1,6 @@
 # Local AI
 
-For people running and building with local models on Omarchy. One install adds llama.cpp, a GPU monitor in the terminal, and uv, plus four bar plugins and two agent skills. A new project under `~/AI` holds the Modelfile, prompts, evals, a small Python client, and a compose file for Open WebUI.
+For people running and building with local models on Omarchy. One install adds llama.cpp, a GPU monitor in the terminal, and uv, plus four bar plugins and two agent skills. A new project under `~/AI` holds the Modelfile, prompts, evals, a small Python client, and a compose file for Open WebUI. The install notification opens `introduction.md`.
 
 This bundle is the example of a GPU-specific install choice. Ollama's four official packages cannot be installed together, and `bundle.json` cannot say "install whichever one the GPU needs". Those packages stay out of `packages`. The create script offers the menu action that already makes the choice.
 

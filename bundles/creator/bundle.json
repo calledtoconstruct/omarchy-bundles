@@ -5,6 +5,7 @@
   "name": "Creator",
   "version": "1.0.0",
   "description": "Packages, bar plugins, and a dated project layout for screencasts, YouTube, and streams.",
+  "introduction": "introduction.md",
   "packages": [
     "v4l2loopback-dkms",
     "v4l2loopback-utils",

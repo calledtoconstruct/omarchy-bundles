@@ -1,6 +1,6 @@
 # Study
 
-For students and self-learners. One install adds Anki, Typst, Pandoc, Zathura, Harper, and Zotero, plus four bar plugins and three agent skills. A course lives at `~/School/<term>/<course>/`.
+For students and self-learners. One install adds Anki, Typst, Pandoc, Zathura, Harper, and Zotero, plus four bar plugins and three agent skills. A course lives at `~/School/<term>/<course>/`. The install notification opens `introduction.md`.
 
 ## What it installs
 

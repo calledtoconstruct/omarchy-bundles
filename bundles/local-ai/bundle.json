@@ -5,6 +5,7 @@
   "name": "Local AI",
   "version": "1.0.0",
   "description": "Packages, bar plugins, and a project layout for running and building with local models.",
+  "introduction": "introduction.md",
   "packages": ["llama-cpp", "nvtop", "uv"],
   "aurPackages": [],
   "plugins": [

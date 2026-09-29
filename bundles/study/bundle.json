@@ -5,6 +5,7 @@
   "name": "Study",
   "version": "1.0.0",
   "description": "Packages, bar plugins, and a course folder for students and self-learners.",
+  "introduction": "introduction.md",
   "packages": [
     "anki",
     "typst",

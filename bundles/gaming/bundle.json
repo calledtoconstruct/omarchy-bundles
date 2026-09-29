@@ -5,6 +5,7 @@
   "name": "Gaming",
   "version": "1.0.0",
   "description": "GameMode, MangoHud, Gamescope, and a Proton helper for PC games. No project layout.",
+  "introduction": "introduction.md",
   "packages": [
     "gamemode",
     "mangohud",

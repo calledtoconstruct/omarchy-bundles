@@ -1,6 +1,6 @@
 # Web Developer
 
-For people building web and app projects on Omarchy. One install adds the packages that are not already on a default machine, four bar plugins, two agent skills, an editorconfig, and a project layout under `~/Work`.
+For people building web and app projects on Omarchy. One install adds the packages that are not already on a default machine, four bar plugins, two agent skills, an editorconfig, and a project layout under `~/Work`. The install notification opens `introduction.md`.
 
 ## What it installs
 
