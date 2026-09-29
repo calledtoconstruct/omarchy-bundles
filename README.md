@@ -39,6 +39,7 @@ omarchy bundle project new <id> <project-name>
 | [creator](bundles/creator/README.md) | Screencasters, YouTube, and streams | `v4l2loopback-dkms`, `v4l2loopback-utils`, `easyeffects`, `audacity`, one AUR plugin for OBS, five bar plugins, two skills, and a dated project |
 | [local-ai](bundles/local-ai/README.md) | Running and building with local models | `llama-cpp`, `nvtop`, `uv`, four bar plugins, two skills, and a project under `~/AI`. Ollama stays on the Install menu because its GPU packages cannot be installed together |
 | [study](bundles/study/README.md) | Students and self-learners, one folder per course | `anki`, `typst`, `pandoc-cli`, `zathura`, `zathura-pdf-mupdf`, `harper`, AUR `zotero-bin`, four bar plugins, three skills, and `~/School/<term>/<course>` |
+| [gaming](bundles/gaming/README.md) | PC games | `gamemode`, `mangohud`, `gamescope`, `goverlay`, the lib32 builds of GameMode and MangoHud, AUR `protonup-qt`, three bar plugins, one skill, and a MangoHud config. No project. Steam and Heroic stay on the Install menu |
 
 ## Safety
 

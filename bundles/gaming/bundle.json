@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "packageType": "bundle",
+  "id": "gaming",
+  "name": "Gaming",
+  "version": "1.0.0",
+  "description": "GameMode, MangoHud, Gamescope, and a Proton helper for PC games. No project layout.",
+  "packages": [
+    "gamemode",
+    "mangohud",
+    "gamescope",
+    "goverlay",
+    "lib32-gamemode",
+    "lib32-mangohud",
+    "protonup-qt"
+  ],
+  "plugins": [
+    "https://github.com/silvaio/gamemode-switcher.git",
+    "https://github.com/Prathamesh913/gamedock.git",
+    "https://github.com/thisisgm/omarchy-discord.git"
+  ],
+  "skills": ["skills/proton-troubleshooter"],
+  "config": [
+    {
+      "source": "config/MangoHud.conf",
+      "target": "~/.config/MangoHud/MangoHud.conf"
+    }
+  ],
+  "conflicts": []
+}
