@@ -40,6 +40,7 @@ omarchy bundle project new <id> <project-name>
 | [local-ai](bundles/local-ai/README.md) | Running and building with local models | `llama-cpp`, `nvtop`, `uv`, four bar plugins, two skills, and a project under `~/AI`. Ollama stays on the Install menu because its GPU packages cannot be installed together |
 | [study](bundles/study/README.md) | Students and self-learners, one folder per course | `anki`, `typst`, `pandoc-cli`, `zathura`, `zathura-pdf-mupdf`, `harper`, AUR `zotero-bin`, four bar plugins, three skills, and `~/School/<term>/<course>` |
 | [gaming](bundles/gaming/README.md) | PC games | `gamemode`, `mangohud`, `gamescope`, `goverlay`, the lib32 builds of GameMode and MangoHud, AUR `protonup-qt`, three bar plugins, one skill, and a MangoHud config. No project. Steam and Heroic stay on the Install menu |
+| [cyber](bundles/cyber/README.md) | Authorized security testing and research | Official packages for capture, web inspection, reverse engineering, forensics, offline password recovery, and a host audit. One skill and a lab folder. No AUR packages and no attack frameworks |
 
 ## Safety
 
