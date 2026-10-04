@@ -1,6 +1,6 @@
 # Cyber lab
 
-For authorized security testing and research on the Omarchy machine you already use. One install adds official Arch packages for capture, web inspection, reverse engineering, forensics, offline password recovery, and a host audit, plus one agent skill and a lab folder. No AUR packages. No bar plugins. The install notification opens `introduction.md`.
+For authorized security testing and research on the Omarchy machine you already use. One install adds official Arch packages for capture, web inspection, reverse engineering, forensics, offline password recovery, and a host audit, plus one bar plugin, four agent skills, and a lab folder. No AUR packages. The install notification opens `introduction.md`.
 
 Other systems make this a distribution. Kali sorts thousands of tools into metapackages (`kali-tools-information-gathering`, `kali-tools-forensics`, `kali-tools-reverse-engineering`, `kali-tools-exploitation`, and the rest) and `kali-linux-everything` installs all of them. Parrot ships a Home edition for daily use and a separate Security edition. BlackArch is an Arch overlay with a category for almost every tool. Fedora's Security Lab is a live spin whose package set is the lab, not a second desktop you keep. Omarchy stays the daily system. This bundle is the lab you add and remove.
 
@@ -42,6 +42,25 @@ The package list follows the categories those projects share, using names that e
 `hashcat` and `john` recover passwords from material you have. The bundle does not ship a wordlist, and install does not run either program.
 
 Wireshark's capture helper needs the user in the `wireshark` group. A bundle install does not change group membership.
+
+## Plugin
+
+| Plugin | Id | What it adds |
+| --- | --- | --- |
+| [calledtoconstruct/omarchy-cyber-lab](https://github.com/calledtoconstruct/omarchy-cyber-lab) | `calledtoconstruct.cyber-lab` | A bar badge. `cap` while dumpcap, tcpdump, wireshark, or termshark is already running. `scope` when the newest `~/Work/<name>/scope.md` has an empty `Authorized by:` line. `lab` otherwise. Click opens that file. It does not start a capture |
+
+The schema cannot store a commit. Reviewed at `10d67c88563f7d483af186aa20b09c7ffe68dadc`.
+
+There is no Omarchy application yet for a case file or for starting and stopping a capture. The lab folder, the skills, and this badge are the pieces that did not exist. A capture control would be a separate decision, because it starts a sniffer.
+
+## Skills
+
+| Skill | When it applies |
+| --- | --- |
+| `engagement-notes` | Notes from commands the user already ran. Stops when scope is blank |
+| `capture-notes` | `capinfos` and `tshark` statistics on a pcap already in `pcaps/`. No new capture, no payload hunting |
+| `firmware-inventory` | `binwalk` listing and `exiftool` on a file already in `samples/`. No extract, no execute |
+| `host-audit` | Files a `lynis` or `ssh-audit` report the user already produced. Does not run sudo or change the machine |
 
 ## Left out on purpose
 

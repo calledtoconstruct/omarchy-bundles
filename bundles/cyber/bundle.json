@@ -35,8 +35,15 @@
     "ssh-audit"
   ],
   "aurPackages": [],
-  "plugins": [],
-  "skills": ["skills/engagement-notes"],
+  "plugins": [
+    "https://github.com/calledtoconstruct/omarchy-cyber-lab.git"
+  ],
+  "skills": [
+    "skills/engagement-notes",
+    "skills/capture-notes",
+    "skills/firmware-inventory",
+    "skills/host-audit"
+  ],
   "config": [],
   "conflicts": [],
   "project": {

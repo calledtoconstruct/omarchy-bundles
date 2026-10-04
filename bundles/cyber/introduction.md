@@ -16,6 +16,8 @@ Offline password recovery: `hashcat`, `john`. These work on hashes and files you
 
 Your own host: `lynis`, `clamav`, `ssh-audit`.
 
+One bar plugin, [Cyber lab](https://github.com/calledtoconstruct/omarchy-cyber-lab), shows whether a capture is already running and whether `scope.md` names who authorized the work. It does not start a capture. Four skills file notes from work you already did.
+
 `whois` and `socat` are already in the Omarchy base install, so they are not listed again.
 
 Wireshark can capture only if your user is in the `wireshark` group. This install does not change groups.
