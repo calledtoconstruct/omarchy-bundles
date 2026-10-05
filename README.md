@@ -26,6 +26,7 @@ A name shaped like `publisher/name` or `publisher/name@version` is reserved for 
 ```bash
 omarchy bundle list
 omarchy bundle remove <id>
+omarchy bundle reset <id>
 omarchy bundle project new <id> <project-name>
 ```
 
@@ -47,7 +48,7 @@ omarchy bundle project new <id> <project-name>
 - Installing a bundle never runs a file from the bundle. The copy, the package installs, the plugin installs, the skill links, and the config copies are the whole install.
 - A create script runs only from `omarchy bundle project new`, after the command has printed the script and you have confirmed.
 - A create script in this catalog asks before a download over about 100 MB, before `sudo`, before creating anything on GitHub, and before signing into or changing an account.
-- Removal is reference counted. A package or plugin that another installed bundle still lists stays installed.
+- Removal is reference counted. A package or plugin that another installed bundle still lists stays installed. A config file the bundle copied is checksummed; remove deletes it only when those bytes are unchanged. An edit you made after install is left on disk. `omarchy bundle reset <id>` moves a differing live file to `<file>.bak.<timestamp>` and writes the installed bundle's copy.
 
 ## AUR policy
 
