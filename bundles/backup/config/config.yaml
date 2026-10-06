@@ -1,0 +1,25 @@
+# Sample for ~/.config/borgmatic/config.yaml
+# Replace every YOU and every CHANGE_ME before repo-create.
+# The passphrase file is not this file. Create it yourself, mode 600,
+# and keep a copy that is not only on this disk.
+
+source_directories:
+  - /home/YOU
+
+repositories:
+  - path: /CHANGE_ME/home.borg
+    label: home
+
+one_file_system: true
+
+exclude_patterns:
+  - /home/YOU/.cache
+  - /home/YOU/.local/share/Trash
+  - /home/YOU/.config/borgmatic/passphrase
+  - /CHANGE_ME/home.borg
+
+encryption_passcommand: "cat /home/YOU/.config/borgmatic/passphrase"
+
+keep_daily: 14
+keep_weekly: 8
+keep_monthly: 6

@@ -42,6 +42,7 @@ omarchy bundle project new <id> <project-name>
 | [study](bundles/study/README.md) | Students and self-learners, one folder per course | `anki`, `typst`, `pandoc-cli`, `zathura`, `zathura-pdf-mupdf`, `harper`, AUR `zotero-bin`, four bar plugins, three skills, and `~/School/<term>/<course>` |
 | [gaming](bundles/gaming/README.md) | PC games | `gamemode`, `mangohud`, `gamescope`, `goverlay`, the lib32 builds of GameMode and MangoHud, AUR `protonup-qt`, three bar plugins, one skill, and a MangoHud config. No project. Steam and Heroic stay on the Install menu |
 | [cyber](bundles/cyber/README.md) | Authorized security testing and research | Official packages for capture, web inspection, reverse engineering, forensics, offline password recovery, and a host audit. One bar plugin, four skills, and a lab folder. No AUR packages and no attack frameworks |
+| [backup](bundles/backup/README.md) | Regular file backups and restoring a file or a folder | `borg` and `borgmatic` from extra. Two bar plugins, three skills, and a sample config. Snapper is already installed and stays the system-disk rollback |
 
 ## Safety
 

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "packageType": "bundle",
+  "id": "backup",
+  "name": "Backup and Restore",
+  "version": "1.0.0",
+  "description": "Borg backups of your files, a bar badge for the next run, and actions to back up now or restore one path.",
+  "introduction": "introduction.md",
+  "packages": ["borg", "borgmatic"],
+  "aurPackages": [],
+  "plugins": [
+    "https://github.com/calledtoconstruct/omarchy-backup-status.git",
+    "https://github.com/calledtoconstruct/omarchy-backup-actions.git"
+  ],
+  "skills": [
+    "skills/backup-setup",
+    "skills/backup-now",
+    "skills/backup-restore"
+  ],
+  "config": [
+    {
+      "source": "config/config.yaml",
+      "target": "~/.config/omarchy-bundles/backup/config.yaml"
+    }
+  ],
+  "conflicts": []
+}
