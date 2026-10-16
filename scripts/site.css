@@ -1,13 +1,18 @@
 :root {
-  --paper: #f3efe6;
-  --paper-2: #fffdf8;
-  --ink: #1c1915;
-  --muted: #5e584e;
-  --line: #d8d0c2;
-  --accent: #0e4f4c;
-  --accent-ink: #f4f7f6;
-  --warn: #8a3d16;
-  --warn-bg: #f6e6d4;
+  /* Fallbacks are the paper palette. Omarchy Theme Sync replaces them in Chromium. */
+  --paper: var(--omarchy-background, #f3efe6);
+  --paper-2: var(--omarchy-lighter-background, #fffdf8);
+  --ink: var(--omarchy-foreground, #1c1915);
+  --muted: var(--omarchy-dark-foreground, #5e584e);
+  --line: var(--omarchy-muted, #d8d0c2);
+  --accent: var(--omarchy-accent, #0e4f4c);
+  --accent-ink: var(--omarchy-bright-foreground, #f4f7f6);
+  --code-bg: var(--omarchy-selection, #efe8da);
+  --strip: var(--omarchy-darker-background, #1c1915);
+  --strip-ink: var(--omarchy-bright-foreground, #f6f1e7);
+  --strip-muted: var(--omarchy-light-foreground, #d9d0c2);
+  --warn: var(--omarchy-orange, #8a3d16);
+  --warn-bg: var(--omarchy-lighter-background, #f6e6d4);
   --shadow: 0 1px 0 rgba(28, 25, 21, 0.04);
   --serif: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
   --sans: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -17,6 +22,8 @@
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
+html[data-omarchy-mode="dark"] { color-scheme: dark; }
+html[data-omarchy-mode="light"] { color-scheme: light; }
 
 body {
   margin: 0;
@@ -134,11 +141,11 @@ main.detail h1 {
 
 .install {
   margin: 1.2rem 0 1.4rem;
-  background: var(--ink);
-  color: #f6f1e7;
+  background: var(--strip);
+  color: var(--strip-ink);
   padding: 0.9rem 1rem 1rem;
 }
-.install p { margin: 0 0 0.55rem; color: #d9d0c2; font-size: 0.92rem; }
+.install p { margin: 0 0 0.55rem; color: var(--strip-muted); font-size: 0.92rem; }
 .install pre {
   margin: 0;
   overflow-x: auto;
@@ -151,12 +158,12 @@ button.copy {
   font: inherit;
   font-size: 0.82rem;
   background: transparent;
-  color: #f6f1e7;
-  border: 1px solid #8d867a;
+  color: var(--strip-ink);
+  border: 1px solid var(--line);
   padding: 0.25rem 0.55rem;
   cursor: pointer;
 }
-button.copy:hover, button.copy:focus { border-color: #f6f1e7; }
+button.copy:hover, button.copy:focus { border-color: var(--strip-ink); }
 
 .facts {
   display: grid;
@@ -180,7 +187,7 @@ button.copy:hover, button.copy:focus { border-color: #f6f1e7; }
 .facts code, .prose code, code {
   font-family: var(--mono);
   font-size: 0.86em;
-  background: #efe8da;
+  background: var(--code-bg);
   padding: 0.05rem 0.28rem;
 }
 .install code { background: transparent; padding: 0; color: inherit; }
@@ -195,8 +202,8 @@ button.copy:hover, button.copy:focus { border-color: #f6f1e7; }
   color: var(--muted);
 }
 .prose pre {
-  background: var(--ink);
-  color: #f6f1e7;
+  background: var(--strip);
+  color: var(--strip-ink);
   padding: 0.8rem 0.9rem;
   overflow-x: auto;
   font-family: var(--mono);

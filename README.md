@@ -68,7 +68,9 @@ python3 scripts/build-site.py
 python3 -m http.server 4173 --directory site
 ```
 
-Cloudflare Pages can publish the `site/` directory. This machine is not logged in to Wrangler, so the files are local until `npx wrangler pages deploy site --project-name omarchy-bundles`.
+Cloudflare Pages can publish the `site/` directory. This machine is not logged in to Wrangler, so the files are local until `npx wrangler pages deploy site --project-name omarchy-bundles`. GitHub Pages is not enabled on this repository.
+
+In Chromium on Omarchy, [Omarchy Theme Sync](https://github.com/omacom/omarchy-theme-sync) sets `--omarchy-*` variables on the page. The catalog uses those, with the paper palette as the fallback. Firefox and a browser without the extension stay on the paper palette.
 
 ## Where this came from
 

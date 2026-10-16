@@ -165,7 +165,7 @@ def page(title, body, depth):
 {body}
 <footer class="site">
   <div class="wrap">
-    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs.</p>
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs. In Chromium on Omarchy, the Theme Sync extension paints these pages with the desktop palette. Other browsers keep the paper colors.</p>
     <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
   </div>
 </footer>
