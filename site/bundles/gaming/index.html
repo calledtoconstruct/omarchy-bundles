@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gaming · Omarchy bundles</title>
+<link rel="stylesheet" href="../../css/site.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site">
+  <div class="wrap brand">
+    <a class="mark" href="../../index.html">Omarchy bundles</a>
+    <nav>
+      <a href="https://github.com/calledtoconstruct/omarchy-bundles">Catalog source</a>
+      <a href="https://github.com/omacom/omarchy/pull/15603">Command pull request</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content" class="detail">
+  <div class="wrap">
+    <p class="kicker"><a href="../../index.html">All bundles</a> · gaming · 1.0.0</p>
+    <h1>Gaming</h1>
+    <p class="lede">GameMode, MangoHud, Gamescope, and a Proton helper for PC games. No project layout.</p>
+    <p class="notice">This catalog is not part of stock Omarchy. The omarchy bundle command is proposed in pull request 15603. A git URL installs only a repository whose root contains bundle.json, and that command warns the source is unreviewed. Each bundle here lives in a subfolder, so the command clones this catalog and adds that folder.</p>
+    <div class="install">
+      <div class="row"><p>Install this bundle</p><button class="copy" type="button">Copy command</button></div>
+      <pre><code>git clone https://github.com/calledtoconstruct/omarchy-bundles.git
+omarchy bundle add ./omarchy-bundles/bundles/gaming</code></pre>
+    </div>
+    <div class="facts">
+      <section><h2>Arch packages</h2><ul><li><code>gamemode</code></li><li><code>mangohud</code></li><li><code>gamescope</code></li><li><code>goverlay</code></li><li><code>lib32-gamemode</code></li><li><code>lib32-mangohud</code></li></ul></section>
+      <section><h2>AUR packages</h2><ul><li><code>protonup-qt</code> on the AUR</li></ul></section>
+      <section><h2>Plugins</h2><ul><li><a href="https://github.com/silvaio/gamemode-switcher.git"><code>silvaio/gamemode-switcher</code></a></li><li><a href="https://github.com/Prathamesh913/gamedock.git"><code>Prathamesh913/gamedock</code></a></li><li><a href="https://github.com/thisisgm/omarchy-discord.git"><code>thisisgm/omarchy-discord</code></a></li></ul></section>
+      <section><h2>Skills</h2><ul><li><code>proton-troubleshooter</code></li></ul></section>
+      <section><h2>Config files</h2><ul><li><code>config/MangoHud.conf</code> to <code>~/.config/MangoHud/MangoHud.conf</code></li></ul></section>
+      
+      <section><h2>Project</h2><p class="empty">This bundle does not create a project folder.</p></section>
+    </div>
+    <article class="prose">
+      <h2>Gaming</h2>
+<p>This bundle sets up a PC game session on Omarchy. It installs the performance tools and the overlay, then the bar plugins that launch games and quiet the desktop. There is <strong>no project folder</strong> and no launcher sequence. You start a game from Steam, Heroic, or GameDock.</p>
+<blockquote><p>Steam and Heroic stay on <strong>Install → Gaming</strong>. Those menu installers also add the 32-bit Vulkan driver for your GPU. This bundle does not.</p></blockquote>
+<h3>What was installed</h3>
+<table><thead><tr><th>Tool</th><th>Command or app</th><th>What it is for</th></tr></thead><tbody><tr><td>GameMode</td><td><code>gamemoderun</code></td><td>A per-game performance profile from Feral</td></tr><tr><td>MangoHud</td><td><code>mangohud</code></td><td>FPS, frametime, and CPU/GPU load</td></tr><tr><td>Gamescope</td><td><code>gamescope</code></td><td>A nested or fullscreen game session</td></tr><tr><td>Goverlay</td><td>Goverlay in the app launcher</td><td>A GUI for the MangoHud config</td></tr><tr><td>ProtonUp-Qt</td><td>ProtonUp-Qt in the app launcher</td><td>GE-Proton and other compatibility tools</td></tr><tr><td><code>lib32-gamemode</code>, <code>lib32-mangohud</code></td><td>—</td><td>The same two tools for 32-bit games</td></tr></tbody></table>
+<p>ProtonUp-Qt is the AUR package. Upstream also publishes a Flatpak, <code>net.davidotek.pupgui2</code>, if you would rather use that.</p>
+<h3>Play a game with the overlay</h3>
+<ol><li>Install Steam or Heroic from <strong>Install → Gaming</strong> if you have not already.</li><li>Open ProtonUp-Qt, install one GE-Proton build, and <strong>restart Steam</strong> so it appears in the compatibility list. Pick it for one game.</li><li>Set that game&#x27;s launch options to:</li></ol>
+<pre><code>mangohud gamemoderun %command%</code></pre>
+<p>Try each wrapper on its own before combining them. <code>mangohud %command%</code> draws the overlay. <code>gamemoderun %command%</code> asks the GameMode daemon for a performance profile for that process.</p>
+<p>The overlay sits in the <strong>top-left</strong>. It shows FPS, frametime, CPU load and temperature, and GPU load and temperature. <strong>F12</strong> shows or hides it. The config is <code>~/.config/MangoHud/MangoHud.conf</code>. Goverlay edits that same file. If the file was already yours, install left it in place.</p>
+<p><code>lib32-gamemode</code> and <code>lib32-mangohud</code> are not a substitute for the GPU&#x27;s 32-bit Vulkan driver. The Steam and Heroic installers add that driver.</p>
+<h3>The bar</h3>
+<p>If you enabled the plugins, three icons land on the <strong>right</strong> side of the bar.</p>
+<ul><li><strong>Game Mode</strong> is the gamepad chip. A click hides the bar, silences notifications, turns night light off, and switches the power profile to performance. Most Super shortcuts and Alt+Tab are locked so they do not steal input. Super+1 through Super+10, and Super+C/V/X, stay available. <strong>Super+Ctrl+G</strong> leaves Game Mode. Right-click the chip for settings. Starting Steam in Gamescope is off until you turn that setting on. This chip is separate from <code>gamemoderun</code>.</li><li><strong>GameDock</strong> is the controller icon. Its panel lists launchers and installed games from Steam, Heroic, RetroArch, and RPCS3. With none of those installed, the panel is empty.</li><li><strong>Discord</strong> is a Discord mark. It stays dim while Discord is not running, turns the theme&#x27;s urgent color on a mention or DM, and grows a dot during a voice call. This bundle does not install Discord. The Arch <code>discord</code> package and Vesktop are the clients it understands. Hide Discord&#x27;s own tray icon (right-click the tray, <strong>Manage</strong>, untick Discord) or you get two icons.</li></ul>
+<p>Leave the plugins disabled and the bar stays as it was. Enable them later with:</p>
+<pre><code>omarchy plugin enable silvaio.gamemode
+omarchy plugin enable io.github.prathamesh913.gamedock
+omarchy plugin enable io.github.thisisgm.discord</code></pre>
+<h3>When a game will not start</h3>
+<p>Ask an agent to use the <strong>proton-troubleshooter</strong> skill, linked as <code>gaming-proton-troubleshooter</code>. It walks through ProtonDB, another Proton or GE-Proton build, the Proton log, launch options, and the GPU driver.</p>
+      <p><a href="https://github.com/calledtoconstruct/omarchy-bundles/tree/main/bundles/gaming">Read this bundle on GitHub</a>.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs.</p>
+    <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("button.copy").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var text = button.parentElement.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      button.textContent = "Copied";
+    });
+  });
+});
+</script>
+</body>
+</html>

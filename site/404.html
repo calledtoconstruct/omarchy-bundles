@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found · Omarchy bundles</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site">
+  <div class="wrap brand">
+    <a class="mark" href="index.html">Omarchy bundles</a>
+    <nav>
+      <a href="https://github.com/calledtoconstruct/omarchy-bundles">Catalog source</a>
+      <a href="https://github.com/omacom/omarchy/pull/15603">Command pull request</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content"><div class="wrap hero"><h1>That page is not in the catalog.</h1>
+<p class="lede"><a href="index.html">Back to the bundles</a>.</p></div></main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs.</p>
+    <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("button.copy").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var text = button.parentElement.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      button.textContent = "Copied";
+    });
+  });
+});
+</script>
+</body>
+</html>

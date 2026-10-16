@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local AI · Omarchy bundles</title>
+<link rel="stylesheet" href="../../css/site.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site">
+  <div class="wrap brand">
+    <a class="mark" href="../../index.html">Omarchy bundles</a>
+    <nav>
+      <a href="https://github.com/calledtoconstruct/omarchy-bundles">Catalog source</a>
+      <a href="https://github.com/omacom/omarchy/pull/15603">Command pull request</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content" class="detail">
+  <div class="wrap">
+    <p class="kicker"><a href="../../index.html">All bundles</a> · local-ai · 1.0.0</p>
+    <h1>Local AI</h1>
+    <p class="lede">Packages, bar plugins, and a project layout for running and building with local models.</p>
+    <p class="notice">This catalog is not part of stock Omarchy. The omarchy bundle command is proposed in pull request 15603. A git URL installs only a repository whose root contains bundle.json, and that command warns the source is unreviewed. Each bundle here lives in a subfolder, so the command clones this catalog and adds that folder.</p>
+    <div class="install">
+      <div class="row"><p>Install this bundle</p><button class="copy" type="button">Copy command</button></div>
+      <pre><code>git clone https://github.com/calledtoconstruct/omarchy-bundles.git
+omarchy bundle add ./omarchy-bundles/bundles/local-ai</code></pre>
+    </div>
+    <div class="facts">
+      <section><h2>Arch packages</h2><ul><li><code>llama-cpp</code></li><li><code>nvtop</code></li><li><code>uv</code></li></ul></section>
+      <section><h2>AUR packages</h2><p class="empty">None.</p></section>
+      <section><h2>Plugins</h2><ul><li><a href="https://github.com/0xSero/omarchy-local-ai.git"><code>0xSero/omarchy-local-ai</code></a></li><li><a href="https://github.com/ssandys/colophon.git"><code>ssandys/colophon</code></a></li><li><a href="https://github.com/25cent9/omarchy-lmstudio-plugin.git"><code>25cent9/omarchy-lmstudio-plugin</code></a></li><li><a href="https://github.com/crmne/omastats.git"><code>crmne/omastats</code></a></li></ul></section>
+      <section><h2>Skills</h2><ul><li><code>ollama-models</code></li><li><code>local-evals</code></li></ul></section>
+      
+      
+      <section><h2>Project</h2><p><code>omarchy bundle project new local-ai &lt;name&gt;</code> creates the layout under <code>~/AI</code> (models, prompts, evals, app, data). The create script runs only after you confirm it.</p></section>
+    </div>
+    <article class="prose">
+      <h2>Local AI</h2>
+<p>This bundle is for running and building with local models. It installs three tools that are the same on every GPU, four bar plugins, and two agent skills. A project lives under <code>~/AI</code>.</p>
+<p>Ollama is <strong>not</strong> in the package list. The right Ollama package depends on the GPU, and a bundle cannot say &quot;install whichever one this machine needs.&quot; <strong>Install → AI → Ollama</strong> makes that choice:</p>
+<table><thead><tr><th>What the machine has</th><th>Package</th></tr></thead><tbody><tr><td><code>nvidia-smi</code></td><td><code>ollama-cuda</code></td></tr><tr><td><code>rocminfo</code></td><td><code>ollama-rocm</code></td></tr><tr><td>anything else</td><td><code>ollama</code></td></tr></tbody></table>
+<p><code>ollama-vulkan</code> is also in the official repositories. The menu leaves it unselected. Removing Ollama later is <code>omarchy-remove-ai-ollama</code>, which drops all four names.</p>
+<p>LM Studio is the same kind of choice. <strong>Install → AI → LM Studio</strong> installs the AUR package <code>lmstudio-bin</code>.</p>
+<h3>What was installed</h3>
+<table><thead><tr><th>Package</th><th>Command</th><th>What it is for</th></tr></thead><tbody><tr><td><code>llama-cpp</code></td><td><code>llama-cli</code></td><td>llama.cpp, beside Ollama</td></tr><tr><td><code>nvtop</code></td><td><code>nvtop</code></td><td>GPU use in a terminal for NVIDIA, AMD, and Intel</td></tr><tr><td><code>uv</code></td><td><code>uv</code></td><td>The project&#x27;s Python tools, without a separate virtualenv step</td></tr></tbody></table>
+<p>No AUR packages are installed by this bundle.</p>
+<h3>A project</h3>
+<pre><code>omarchy bundle project new local-ai my-model</code></pre>
+<p>The folder under <code>~/AI</code> holds a Modelfile, prompts, evals, a small Python client, and a compose file for Open WebUI. The create script can offer the same Ollama install the menu uses. Open WebUI is that compose service (<code>ghcr.io/open-webui/open-webui:main</code>), not an Arch package. Docker and Docker Compose are already on Omarchy.</p>
+<p><code>uv</code> runs <code>app/ask.py</code> and <code>evals/compare.py</code>.</p>
+<h3>The bar</h3>
+<p>If you enabled the plugins:</p>
+<ul><li><strong>Local AI</strong> starts a model that fits the GPU, opens a coding agent on that model, and can share it on the tailnet.</li><li><strong>Colophon</strong> shows whether the Ollama server is running, and can start it, stop it, or load a model.</li><li><strong>LM Studio</strong> controls LM Studio from the bar. The application itself still comes from <strong>Install → AI → LM Studio</strong>.</li><li><strong>Stats</strong> shows CPU, memory, and GPU load. NVIDIA stays visible even when <code>nvidia-smi</code> is missing, and shows full stats when it works.</li></ul>
+<blockquote><p>Colophon is the one to look at when a model &quot;is not there.&quot; It is the server, not the chat window.</p></blockquote>
+<h3>Skills</h3>
+<p>Two agent skills are linked where an agent skill directory already exists:</p>
+<ol><li><strong>ollama-models</strong> for pulling and running a model.</li><li><strong>local-evals</strong> for comparing answers from the project under <code>~/AI</code>.</li></ol>
+<p>Point the agent at that project and name the skill.</p>
+      <p><a href="https://github.com/calledtoconstruct/omarchy-bundles/tree/main/bundles/local-ai">Read this bundle on GitHub</a>.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs.</p>
+    <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("button.copy").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var text = button.parentElement.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      button.textContent = "Copied";
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cyber lab · Omarchy bundles</title>
+<link rel="stylesheet" href="../../css/site.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site">
+  <div class="wrap brand">
+    <a class="mark" href="../../index.html">Omarchy bundles</a>
+    <nav>
+      <a href="https://github.com/calledtoconstruct/omarchy-bundles">Catalog source</a>
+      <a href="https://github.com/omacom/omarchy/pull/15603">Command pull request</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content" class="detail">
+  <div class="wrap">
+    <p class="kicker"><a href="../../index.html">All bundles</a> · cyber · 1.0.0</p>
+    <h1>Cyber lab</h1>
+    <p class="lede">Official Arch tools for authorized network analysis, reverse engineering, forensics, and host audit.</p>
+    <p class="notice">This catalog is not part of stock Omarchy. The omarchy bundle command is proposed in pull request 15603. A git URL installs only a repository whose root contains bundle.json, and that command warns the source is unreviewed. Each bundle here lives in a subfolder, so the command clones this catalog and adds that folder.</p>
+    <div class="install">
+      <div class="row"><p>Install this bundle</p><button class="copy" type="button">Copy command</button></div>
+      <pre><code>git clone https://github.com/calledtoconstruct/omarchy-bundles.git
+omarchy bundle add ./omarchy-bundles/bundles/cyber</code></pre>
+    </div>
+    <div class="facts">
+      <section><h2>Arch packages</h2><ul><li><code>nmap</code></li><li><code>wireshark-qt</code></li><li><code>tcpdump</code></li><li><code>termshark</code></li><li><code>ngrep</code></li><li><code>tcpflow</code></li><li><code>mtr</code></li><li><code>openbsd-netcat</code></li><li><code>zaproxy</code></li><li><code>mitmproxy</code></li><li><code>ghidra</code></li><li><code>radare2</code></li><li><code>python-capstone</code></li><li><code>gdb</code></li><li><code>strace</code></li><li><code>ltrace</code></li><li><code>binwalk</code></li><li><code>sleuthkit</code></li><li><code>testdisk</code></li><li><code>foremost</code></li><li><code>perl-image-exiftool</code></li><li><code>hashcat</code></li><li><code>john</code></li><li><code>lynis</code></li><li><code>clamav</code></li><li><code>ssh-audit</code></li></ul></section>
+      <section><h2>AUR packages</h2><p class="empty">None.</p></section>
+      <section><h2>Plugins</h2><ul><li><a href="https://github.com/calledtoconstruct/omarchy-cyber-lab.git"><code>calledtoconstruct/omarchy-cyber-lab</code></a></li></ul></section>
+      <section><h2>Skills</h2><ul><li><code>engagement-notes</code></li><li><code>capture-notes</code></li><li><code>firmware-inventory</code></li><li><code>host-audit</code></li></ul></section>
+      
+      
+      <section><h2>Project</h2><p><code>omarchy bundle project new cyber &lt;name&gt;</code> creates the layout under <code>~/Work</code> (notes, pcaps, samples, findings). The create script runs only after you confirm it.</p></section>
+    </div>
+    <article class="prose">
+      <h2>Cyber lab</h2>
+<p>This bundle installs a lab bench on the Omarchy you already use. It is for systems, files, and captures you are allowed to test. It is not a second operating system, and it is not a permission slip.</p>
+<h3>What was installed</h3>
+<p>Network capture and mapping: <code>nmap</code>, <code>wireshark-qt</code>, <code>tcpdump</code>, <code>termshark</code>, <code>ngrep</code>, <code>tcpflow</code>, <code>mtr</code>, <code>openbsd-netcat</code>.</p>
+<p>Web inspection: <code>zaproxy</code>, <code>mitmproxy</code>.</p>
+<p>Binaries: <code>ghidra</code>, <code>radare2</code>, <code>python-capstone</code>, <code>gdb</code>, <code>strace</code>, <code>ltrace</code>.</p>
+<p>Files and disks: <code>binwalk</code>, <code>sleuthkit</code>, <code>testdisk</code>, <code>foremost</code>, <code>perl-image-exiftool</code>.</p>
+<p>Offline password recovery: <code>hashcat</code>, <code>john</code>. These work on hashes and files you hold. The bundle does not ship a wordlist and does not run either tool.</p>
+<p>Your own host: <code>lynis</code>, <code>clamav</code>, <code>ssh-audit</code>.</p>
+<p>One bar plugin, <a href="https://github.com/calledtoconstruct/omarchy-cyber-lab">Cyber lab</a>, shows whether a capture is already running and whether <code>scope.md</code> names who authorized the work. It does not start a capture. Four skills file notes from work you already did.</p>
+<p><code>whois</code> and <code>socat</code> are already in the Omarchy base install, so they are not listed again.</p>
+<p>Wireshark can capture only if your user is in the <code>wireshark</code> group. This install does not change groups.</p>
+<h3>A lab folder</h3>
+<pre><code>omarchy bundle project new cyber lab</code></pre>
+<p>That creates <code>~/Work/lab/</code> with <code>notes/</code>, <code>pcaps/</code>, <code>samples/</code>, <code>findings/</code>, and a <code>scope.md</code>. Fill in who authorized the work before you test anything.</p>
+<h3>What this bundle leaves out</h3>
+<p>Kali&#x27;s exploitation, wireless-attack, and social-engineering metapackages are not here. That includes Metasploit, Hydra, Aircrack-ng, and SQLmap. Install one of those yourself if a specific engagement needs it.</p>
+      <p><a href="https://github.com/calledtoconstruct/omarchy-bundles/tree/main/bundles/cyber">Read this bundle on GitHub</a>.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs.</p>
+    <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("button.copy").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var text = button.parentElement.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      button.textContent = "Copied";
+    });
+  });
+});
+</script>
+</body>
+</html>

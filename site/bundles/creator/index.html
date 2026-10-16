@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Creator · Omarchy bundles</title>
+<link rel="stylesheet" href="../../css/site.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site">
+  <div class="wrap brand">
+    <a class="mark" href="../../index.html">Omarchy bundles</a>
+    <nav>
+      <a href="https://github.com/calledtoconstruct/omarchy-bundles">Catalog source</a>
+      <a href="https://github.com/omacom/omarchy/pull/15603">Command pull request</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content" class="detail">
+  <div class="wrap">
+    <p class="kicker"><a href="../../index.html">All bundles</a> · creator · 1.0.0</p>
+    <h1>Creator</h1>
+    <p class="lede">Packages, bar plugins, and a dated project layout for screencasts, YouTube, and streams.</p>
+    <p class="notice">This catalog is not part of stock Omarchy. The omarchy bundle command is proposed in pull request 15603. A git URL installs only a repository whose root contains bundle.json, and that command warns the source is unreviewed. Each bundle here lives in a subfolder, so the command clones this catalog and adds that folder.</p>
+    <div class="install">
+      <div class="row"><p>Install this bundle</p><button class="copy" type="button">Copy command</button></div>
+      <pre><code>git clone https://github.com/calledtoconstruct/omarchy-bundles.git
+omarchy bundle add ./omarchy-bundles/bundles/creator</code></pre>
+    </div>
+    <div class="facts">
+      <section><h2>Arch packages</h2><ul><li><code>v4l2loopback-dkms</code></li><li><code>v4l2loopback-utils</code></li><li><code>easyeffects</code></li><li><code>audacity</code></li></ul></section>
+      <section><h2>AUR packages</h2><ul><li><code>obs-pipewire-audio-capture</code> on the AUR</li></ul></section>
+      <section><h2>Plugins</h2><ul><li><a href="https://github.com/tomdavenport/cam-stream.git"><code>tomdavenport/cam-stream</code></a></li><li><a href="https://github.com/kristoferlund/omarchy-webcam.git"><code>kristoferlund/omarchy-webcam</code></a></li><li><a href="https://github.com/felixzsh/omarchy-key-visualizer.git"><code>felixzsh/omarchy-key-visualizer</code></a></li><li><a href="https://github.com/ssupt/omarchy-audio-control.git"><code>ssupt/omarchy-audio-control</code></a></li><li><a href="https://github.com/gigasolo/omavoice.git"><code>gigasolo/omavoice</code></a></li></ul></section>
+      <section><h2>Skills</h2><ul><li><code>video-production</code></li><li><code>publish</code></li></ul></section>
+      
+      
+      <section><h2>Project</h2><p><code>omarchy bundle project new creator &lt;name&gt;</code> creates the layout under <code>~/Videos/Projects</code> (script, raw, assets, edit, export). The create script runs only after you confirm it.</p></section>
+    </div>
+    <article class="prose">
+      <h2>Creator</h2>
+<p>This bundle is for screencasts, YouTube videos, and streams. It adds the capture tools that are <strong>not</strong> already on a default Omarchy install, five bar plugins, two agent skills, and a dated project under <code>~/Videos/Projects</code>.</p>
+<p>OBS Studio, Kdenlive, and GPU Screen Recorder were already part of Omarchy, so they are not in this bundle.</p>
+<h3>What was installed</h3>
+<table><thead><tr><th>Package</th><th>Where</th><th>What it is for</th></tr></thead><tbody><tr><td><code>v4l2loopback-dkms</code></td><td>extra</td><td>Kernel module for an OBS virtual camera</td></tr><tr><td><code>v4l2loopback-utils</code></td><td>extra</td><td>Userspace tools for that module</td></tr><tr><td><code>easyeffects</code></td><td>extra</td><td>Microphone processing</td></tr><tr><td><code>audacity</code></td><td>extra</td><td>A voice track outside the video timeline</td></tr><tr><td><code>obs-pipewire-audio-capture</code></td><td>AUR</td><td>One application&#x27;s PipeWire audio inside OBS</td></tr></tbody></table>
+<p>Open <strong>EasyEffects</strong> for the microphone and <strong>Audacity</strong> from the app launcher. In OBS, the PipeWire audio capture plugin is how you record a single application instead of the whole desktop mix.</p>
+<h3>A project</h3>
+<p>Create a dated project with:</p>
+<pre><code>omarchy bundle project new creator my-video</code></pre>
+<p>The folder lands under <code>~/Videos/Projects</code> with these directories:</p>
+<ol><li><code>script</code></li><li><code>raw</code></li><li><code>assets</code></li><li><code>edit</code></li><li><code>export</code></li></ol>
+<p>The create script only runs after you have seen it and confirmed. Removing the bundle does not delete projects you already made.</p>
+<h3>The bar</h3>
+<p>If you enabled the plugins, the bar can show:</p>
+<ul><li>A <strong>movable camera window</strong> for a recording that does not need an OBS scene.</li><li>A <strong>webcam preview</strong> and its V4L2 controls.</li><li><strong>On-screen keystrokes</strong> for a tutorial.</li><li><strong>Input, output, and level</strong> controls.</li><li>A <strong>virtual microphone</strong> with noise and echo control for OBS, Zoom, and Meet.</li></ul>
+<blockquote><p>The virtual microphone is the one to pick in OBS or a call app when you want the cleaned signal. The webcam preview is a check that the camera is the one you think it is before you record.</p></blockquote>
+<p>Plugins you left disabled stay off. Enable a single one later with <code>omarchy plugin enable</code> and its id, for example <code>omarchy plugin enable io.github.kristoferlund.webcam</code>.</p>
+<h3>Skills</h3>
+<p>Two agent skills are linked for the machines that already have an agent skill directory:</p>
+<ul><li><strong>video-production</strong> for the shape of a shoot and an edit.</li><li><strong>publish</strong> for getting a finished piece out.</li></ul>
+<p>Ask the agent for the skill by that job. It reads the linked <code>SKILL.md</code>. It does not run a file from the bundle on its own.</p>
+      <p><a href="https://github.com/calledtoconstruct/omarchy-bundles/tree/main/bundles/creator">Read this bundle on GitHub</a>.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs.</p>
+    <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("button.copy").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var text = button.parentElement.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      button.textContent = "Copied";
+    });
+  });
+});
+</script>
+</body>
+</html>

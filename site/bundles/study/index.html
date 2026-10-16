@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study · Omarchy bundles</title>
+<link rel="stylesheet" href="../../css/site.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site">
+  <div class="wrap brand">
+    <a class="mark" href="../../index.html">Omarchy bundles</a>
+    <nav>
+      <a href="https://github.com/calledtoconstruct/omarchy-bundles">Catalog source</a>
+      <a href="https://github.com/omacom/omarchy/pull/15603">Command pull request</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content" class="detail">
+  <div class="wrap">
+    <p class="kicker"><a href="../../index.html">All bundles</a> · study · 1.0.0</p>
+    <h1>Study</h1>
+    <p class="lede">Packages, bar plugins, and a course folder for students and self-learners.</p>
+    <p class="notice">This catalog is not part of stock Omarchy. The omarchy bundle command is proposed in pull request 15603. A git URL installs only a repository whose root contains bundle.json, and that command warns the source is unreviewed. Each bundle here lives in a subfolder, so the command clones this catalog and adds that folder.</p>
+    <div class="install">
+      <div class="row"><p>Install this bundle</p><button class="copy" type="button">Copy command</button></div>
+      <pre><code>git clone https://github.com/calledtoconstruct/omarchy-bundles.git
+omarchy bundle add ./omarchy-bundles/bundles/study</code></pre>
+    </div>
+    <div class="facts">
+      <section><h2>Arch packages</h2><ul><li><code>anki</code></li><li><code>typst</code></li><li><code>pandoc-cli</code></li><li><code>zathura</code></li><li><code>zathura-pdf-mupdf</code></li><li><code>harper</code></li></ul></section>
+      <section><h2>AUR packages</h2><ul><li><code>zotero-bin</code> on the AUR</li></ul></section>
+      <section><h2>Plugins</h2><ul><li><a href="https://github.com/yamz8/omanki.git"><code>yamz8/omanki</code></a></li><li><a href="https://github.com/TyRichards/omarchy-clarity.git"><code>TyRichards/omarchy-clarity</code></a></li><li><a href="https://github.com/pjgeutjens/omarchy-clockwork.git"><code>pjgeutjens/omarchy-clockwork</code></a></li><li><a href="https://github.com/LucaNerlich/obsidian-daily-qs.git"><code>LucaNerlich/obsidian-daily-qs</code></a></li></ul></section>
+      <section><h2>Skills</h2><ul><li><code>course-notes</code></li><li><code>flashcards</code></li><li><code>research-papers</code></li></ul></section>
+      
+      
+      <section><h2>Project</h2><p><code>omarchy bundle project new study &lt;name&gt;</code> creates the layout under <code>~/School</code> (notes, lectures, readings, assignments, flashcards). The create script runs only after you confirm it.</p></section>
+    </div>
+    <article class="prose">
+      <h2>Study</h2>
+<p>This bundle is for a course, whether you are enrolled or teaching yourself. It installs the reading and writing tools, four bar plugins, and three agent skills. A course lives at <code>~/School/&lt;term&gt;/&lt;course&gt;/</code>.</p>
+<h3>What was installed</h3>
+<table><thead><tr><th>Package</th><th>Where</th><th>What it is for</th></tr></thead><tbody><tr><td><code>anki</code></td><td>extra</td><td>Decks and review</td></tr><tr><td><code>typst</code></td><td>extra</td><td>Assignments</td></tr><tr><td><code>pandoc-cli</code></td><td>extra</td><td>Turn a Word or Markdown draft into something Typst can sit beside</td></tr><tr><td><code>zathura</code></td><td>extra</td><td>Read PDFs</td></tr><tr><td><code>zathura-pdf-mupdf</code></td><td>extra</td><td>The PDF backend Zathura uses</td></tr><tr><td><code>harper</code></td><td>extra</td><td>Grammar and spelling while you write</td></tr><tr><td><code>zotero-bin</code></td><td>AUR</td><td>Zotero, the official Linux build</td></tr></tbody></table>
+<p>Zotero is also on Flathub as <code>org.zotero.Zotero</code> if you would rather use that than the AUR package. Pacman will not install <code>zotero-bin</code> beside the source package named <code>zotero</code>.</p>
+<p>Open <strong>Anki</strong>, <strong>Zotero</strong>, and <strong>Zathura</strong> from the app launcher. <code>typst</code>, <code>pandoc</code>, and <code>harper</code> are commands.</p>
+<h3>A course folder</h3>
+<pre><code>omarchy bundle project new study cs101</code></pre>
+<p>That creates the course directory and, after you confirm the script, a syllabus, an assignment in Typst, and a bibliography. Two things the script will <strong>not</strong> do:</p>
+<ul><li>It does not write Anki&#x27;s collection. It prints how to create a deck and import a CSV.</li><li>It does not open an Obsidian vault unless you are at a terminal and choose to.</li></ul>
+<p>Readings go in <code>readings/</code> and open in Zathura. Assignments go in <code>assignments/</code>.</p>
+<h3>The bar</h3>
+<p>If you enabled the plugins:</p>
+<table><thead><tr><th>Icon</th><th>What it shows</th></tr></thead><tbody><tr><td>Review</td><td>A due count, scheduled the way Anki schedules cards. The deck is <code>~/.local/share/omanki/cards.json</code>. It does <strong>not</strong> read Anki&#x27;s collection</td></tr><tr><td>Focus</td><td>Distraction blocking and up to three daily focus windows. Turning the block off asks for a Clarity password</td></tr><tr><td>Timer</td><td>Stopwatch, countdown, alarm, intervals, and a Pomodoro cycle</td></tr><tr><td>Daily note</td><td>Today&#x27;s Obsidian note: open items, new checkboxes, and toggles</td></tr></tbody></table>
+<blockquote><p>The daily-note widget needs the vault path in its settings, or <code>OBSIDIAN_VAULT_ROOT</code>. Until that is set, it has nothing to open.</p></blockquote>
+<h3>Skills</h3>
+<p>Three agent skills are linked where an agent skill directory already exists:</p>
+<ol><li><strong>course-notes</strong> turns a lecture transcript or rough notes into a summary, key terms, and practice questions in the course folder.</li><li><strong>flashcards</strong> writes Anki cards as a CSV, one fact per card.</li><li><strong>research-papers</strong> finds and cites sources in Zotero, then writes an assignment in Typst with a bibliography exported from that library.</li></ol>
+<p>Point the agent at the course folder and name the skill.</p>
+      <p><a href="https://github.com/calledtoconstruct/omarchy-bundles/tree/main/bundles/study">Read this bundle on GitHub</a>.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs.</p>
+    <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("button.copy").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var text = button.parentElement.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      button.textContent = "Copied";
+    });
+  });
+});
+</script>
+</body>
+</html>

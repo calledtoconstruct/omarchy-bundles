@@ -59,6 +59,17 @@ An AUR package is allowed only when no official package does the job, and the ma
 
 The rules for adding a bundle are in [CONTRIBUTING.md](CONTRIBUTING.md). Limits of `bundle.json` that a real bundle runs into go in [SCHEMA-GAPS.md](SCHEMA-GAPS.md).
 
+## Catalog site
+
+`scripts/build-site.py` reads each `bundle.json` and introduction and writes a static site to `site/`. The index lists the bundles. Each bundle page shows the package lists and the install command for that folder. Rebuild it with:
+
+```bash
+python3 scripts/build-site.py
+python3 -m http.server 4173 --directory site
+```
+
+Cloudflare Pages can publish the `site/` directory. This machine is not logged in to Wrangler, so the files are local until `npx wrangler pages deploy site --project-name omarchy-bundles`.
+
 ## Where this came from
 
 [Discussion #13551](https://github.com/omacom/omarchy/discussions/13551) asks whether a bundle should be a third registry package type, beside plugin and theme. [Discussion #12342](https://github.com/omacom/omarchy/discussions/12342), "Omarchy for all-jobs", proposed task presets for different kinds of work. These bundles are that idea as separate, reference-counted installs.

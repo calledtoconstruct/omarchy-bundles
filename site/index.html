@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Omarchy bundles</title>
+<link rel="stylesheet" href="css/site.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site">
+  <div class="wrap brand">
+    <a class="mark" href="index.html">Omarchy bundles</a>
+    <nav>
+      <a href="https://github.com/calledtoconstruct/omarchy-bundles">Catalog source</a>
+      <a href="https://github.com/omacom/omarchy/pull/15603">Command pull request</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content">
+  <div class="wrap hero">
+    <h1>Activities you can add and remove.</h1>
+    <p class="lede">Seven bundles group the packages, plugins, skills, and config for one kind of work. Copy the install command, then read what that bundle changes.</p>
+    <p class="notice">This catalog is not part of stock Omarchy. The omarchy bundle command is proposed in pull request 15603. A git URL installs only a repository whose root contains bundle.json, and that command warns the source is unreviewed. Each bundle here lives in a subfolder, so the command clones this catalog and adds that folder.</p>
+  </div>
+  <div class="wrap grid">
+    <a class="card" href="bundles/webdev/"><p class="meta">webdev · 1.0.0</p><h2>Web Developer</h2><p>Packages, bar plugins, skills, and a project layout for building web apps on Omarchy.</p></a><a class="card" href="bundles/creator/"><p class="meta">creator · 1.0.0</p><h2>Creator</h2><p>Packages, bar plugins, and a dated project layout for screencasts, YouTube, and streams.</p></a><a class="card" href="bundles/local-ai/"><p class="meta">local-ai · 1.0.0</p><h2>Local AI</h2><p>Packages, bar plugins, and a project layout for running and building with local models.</p></a><a class="card" href="bundles/study/"><p class="meta">study · 1.0.0</p><h2>Study</h2><p>Packages, bar plugins, and a course folder for students and self-learners.</p></a><a class="card" href="bundles/gaming/"><p class="meta">gaming · 1.0.0</p><h2>Gaming</h2><p>GameMode, MangoHud, Gamescope, and a Proton helper for PC games. No project layout.</p></a><a class="card" href="bundles/cyber/"><p class="meta">cyber · 1.0.0</p><h2>Cyber lab</h2><p>Official Arch tools for authorized network analysis, reverse engineering, forensics, and host audit.</p></a><a class="card" href="bundles/backup/"><p class="meta">backup · 1.0.0</p><h2>Backup and Restore</h2><p>Borg backups of your files, a bar badge for the next run, and actions to back up now or restore one path.</p></a>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs.</p>
+    <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("button.copy").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var text = button.parentElement.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      button.textContent = "Copied";
+    });
+  });
+});
+</script>
+</body>
+</html>

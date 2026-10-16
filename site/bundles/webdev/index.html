@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web Developer · Omarchy bundles</title>
+<link rel="stylesheet" href="../../css/site.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site">
+  <div class="wrap brand">
+    <a class="mark" href="../../index.html">Omarchy bundles</a>
+    <nav>
+      <a href="https://github.com/calledtoconstruct/omarchy-bundles">Catalog source</a>
+      <a href="https://github.com/omacom/omarchy/pull/15603">Command pull request</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content" class="detail">
+  <div class="wrap">
+    <p class="kicker"><a href="../../index.html">All bundles</a> · webdev · 1.0.0</p>
+    <h1>Web Developer</h1>
+    <p class="lede">Packages, bar plugins, skills, and a project layout for building web apps on Omarchy.</p>
+    <p class="notice">This catalog is not part of stock Omarchy. The omarchy bundle command is proposed in pull request 15603. A git URL installs only a repository whose root contains bundle.json, and that command warns the source is unreviewed. Each bundle here lives in a subfolder, so the command clones this catalog and adds that folder.</p>
+    <div class="install">
+      <div class="row"><p>Install this bundle</p><button class="copy" type="button">Copy command</button></div>
+      <pre><code>git clone https://github.com/calledtoconstruct/omarchy-bundles.git
+omarchy bundle add ./omarchy-bundles/bundles/webdev</code></pre>
+    </div>
+    <div class="facts">
+      <section><h2>Arch packages</h2><ul><li><code>github-cli</code></li><li><code>docker-buildx</code></li><li><code>mkcert</code></li><li><code>dbeaver</code></li></ul></section>
+      <section><h2>AUR packages</h2><p class="empty">None.</p></section>
+      <section><h2>Plugins</h2><ul><li><a href="https://github.com/robzolkos/omarchy-github.git"><code>robzolkos/omarchy-github</code></a></li><li><a href="https://github.com/ZerubbabelT/portwatch.git"><code>ZerubbabelT/portwatch</code></a></li><li><a href="https://github.com/Majkelll/omarchy-docker.git"><code>Majkelll/omarchy-docker</code></a></li><li><a href="https://github.com/dingyi/omaportless.git"><code>dingyi/omaportless</code></a></li></ul></section>
+      <section><h2>Skills</h2><ul><li><code>webdev-project</code></li><li><code>frontend-review</code></li></ul></section>
+      <section><h2>Config files</h2><ul><li><code>config/editorconfig</code> to <code>~/.config/omarchy-bundles/webdev/editorconfig</code></li></ul></section>
+      
+      <section><h2>Project</h2><p><code>omarchy bundle project new webdev &lt;name&gt;</code> creates the layout under <code>~/Work</code> (src, docs, infra). The create script runs only after you confirm it.</p></section>
+    </div>
+    <article class="prose">
+      <h2>Web Developer</h2>
+<p>This bundle is for building web and app projects. It adds the packages that are <strong>not</strong> already on a default Omarchy machine, four bar plugins, two agent skills, an editorconfig, and a project layout under <code>~/Work</code>.</p>
+<p>Already installed with Omarchy, and so left out of this bundle: Docker, lazydocker, lazygit, mise, Neovim, and Chromium. Language runtimes are not pacman packages. The create script runs <code>mise use</code> inside the project, and only after asking, because that download can be large.</p>
+<h3>What was installed</h3>
+<table><thead><tr><th>Package</th><th>What it is for</th></tr></thead><tbody><tr><td><code>github-cli</code></td><td><code>gh</code>, including the optional private-repo step in the create script</td></tr><tr><td><code>docker-buildx</code></td><td>Buildx for image builds. A default Omarchy install already has it, so removing this bundle will not remove it</td></tr><tr><td><code>mkcert</code></td><td>A local certificate for <code>https://&lt;name&gt;.localhost</code>, only after you confirm, because trusting the CA uses <code>sudo</code></td></tr><tr><td><code>dbeaver</code></td><td>A desktop client for the Postgres service the create script writes</td></tr></tbody></table>
+<p>DBeaver is the new app in the launcher. <code>gh</code> and <code>mkcert</code> are commands.</p>
+<p>An editorconfig was copied to <code>~/.config/omarchy-bundles/webdev/editorconfig</code>. If that file was already yours, install left it alone.</p>
+<h3>A project</h3>
+<pre><code>omarchy bundle project new webdev my-site</code></pre>
+<p>The folder is created under <code>~/Work</code>. The script can:</p>
+<ol><li>Run <code>mise use</code> for the language versions the project asks for.</li><li>Trust a local CA with <code>mkcert</code> and issue a certificate for <code>https://&lt;name&gt;.localhost</code>.</li><li>Write a Postgres service you can open in DBeaver.</li></ol>
+<p>Each of those waits for a yes. Declining still leaves the project directory.</p>
+<h3>The bar</h3>
+<p>If you enabled the plugins, the bar can show:</p>
+<ul><li><strong>GitHub</strong> reviews, notifications, and your pull requests.</li><li><strong>Ports</strong> that are listening, and a way to stop them.</li><li><strong>Docker</strong> container status, logs, and start/stop.</li><li>A stable **<code>&lt;name&gt;.localhost</code>** name for a dev server.</li></ul>
+<blockquote><p>Portwatch and the localhost name are the two that matter while a server is running. GitHub and Docker are there the rest of the time.</p></blockquote>
+<p>Enable one later with <code>omarchy plugin enable</code> and its id, for example <code>omarchy plugin enable zeru.portwatch</code>.</p>
+<h3>Skills</h3>
+<ul><li><strong>webdev-project</strong> for the layout of a new app.</li><li><strong>frontend-review</strong> for a pass over the interface.</li></ul>
+<p>Ask the agent for the skill and point it at the project directory.</p>
+      <p><a href="https://github.com/calledtoconstruct/omarchy-bundles/tree/main/bundles/webdev">Read this bundle on GitHub</a>.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs.</p>
+    <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("button.copy").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var text = button.parentElement.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      button.textContent = "Copied";
+    });
+  });
+});
+</script>
+</body>
+</html>

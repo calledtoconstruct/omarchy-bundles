@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Backup and Restore · Omarchy bundles</title>
+<link rel="stylesheet" href="../../css/site.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site">
+  <div class="wrap brand">
+    <a class="mark" href="../../index.html">Omarchy bundles</a>
+    <nav>
+      <a href="https://github.com/calledtoconstruct/omarchy-bundles">Catalog source</a>
+      <a href="https://github.com/omacom/omarchy/pull/15603">Command pull request</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content" class="detail">
+  <div class="wrap">
+    <p class="kicker"><a href="../../index.html">All bundles</a> · backup · 1.0.0</p>
+    <h1>Backup and Restore</h1>
+    <p class="lede">Borg backups of your files, a bar badge for the next run, and actions to back up now or restore one path.</p>
+    <p class="notice">This catalog is not part of stock Omarchy. The omarchy bundle command is proposed in pull request 15603. A git URL installs only a repository whose root contains bundle.json, and that command warns the source is unreviewed. Each bundle here lives in a subfolder, so the command clones this catalog and adds that folder.</p>
+    <div class="install">
+      <div class="row"><p>Install this bundle</p><button class="copy" type="button">Copy command</button></div>
+      <pre><code>git clone https://github.com/calledtoconstruct/omarchy-bundles.git
+omarchy bundle add ./omarchy-bundles/bundles/backup</code></pre>
+    </div>
+    <div class="facts">
+      <section><h2>Arch packages</h2><ul><li><code>borg</code></li><li><code>borgmatic</code></li></ul></section>
+      <section><h2>AUR packages</h2><p class="empty">None.</p></section>
+      <section><h2>Plugins</h2><ul><li><a href="https://github.com/calledtoconstruct/omarchy-backup-status.git"><code>calledtoconstruct/omarchy-backup-status</code></a></li><li><a href="https://github.com/calledtoconstruct/omarchy-backup-actions.git"><code>calledtoconstruct/omarchy-backup-actions</code></a></li></ul></section>
+      <section><h2>Skills</h2><ul><li><code>backup-setup</code></li><li><code>backup-now</code></li><li><code>backup-restore</code></li></ul></section>
+      <section><h2>Config files</h2><ul><li><code>config/config.yaml</code> to <code>~/.config/omarchy-bundles/backup/config.yaml</code></li></ul></section>
+      
+      <section><h2>Project</h2><p class="empty">This bundle does not create a project folder.</p></section>
+    </div>
+    <article class="prose">
+      <h2>Backup and Restore</h2>
+<p>This bundle copies your files to a Borg repository on another disk or another machine. Omarchy already uses snapper for btrfs snapshots of the system disk. Those snapshots roll the machine back after an update. They stay on that disk. This bundle is the copy that can survive the disk.</p>
+<h3>What was installed</h3>
+<p><code>borg</code> and <code>borgmatic</code>, both from extra. borgmatic stores the backup settings in one YAML file and runs Borg.</p>
+<p>A sample of that file is at <code>~/.config/omarchy-bundles/backup/config.yaml</code>. It is not live until you copy it to <code>~/.config/borgmatic/config.yaml</code> and replace <code>YOU</code> and <code>CHANGE_ME</code>.</p>
+<p>Two bar plugins:</p>
+<ul><li>Backup status shows the next run, an in-progress backup, or that the schedule is missing. It does not start a backup.</li><li>Backup actions opens a terminal menu: back up now, list archives, restore one file or folder into <code>~/Restores/</code>, or install the daily timer.</li></ul>
+<p>Three skills walk an agent through setup, an immediate backup, and a restore. The restore skill writes into a new folder. It does not replace the live file in place.</p>
+<h3>Before the first backup</h3>
+<p>Pick a repository path on another filesystem, or an <code>ssh://</code> path. Create a passphrase file at <code>~/.config/borgmatic/passphrase</code>, mode 600. Keep a copy of that passphrase off this machine. The sample config excludes the passphrase file from the archive, so the archive cannot unlock itself.</p>
+<p>Then:</p>
+<pre><code>borgmatic config validate
+borgmatic repo-create --encryption repokey-blake2</code></pre>
+<p>The actions plugin can install <code>omarchy-backup.timer</code> for your user after you confirm. The timer runs <code>borgmatic create</code>. It does not prune old archives.</p>
+<h3>What this bundle leaves out</h3>
+<p>Timeshift, btrbk, restic, Vorta, Pika Backup, and Kopia. Snapper is already on the machine for system snapshots. One file-backup program is enough for this sample.</p>
+      <p><a href="https://github.com/calledtoconstruct/omarchy-bundles/tree/main/bundles/backup">Read this bundle on GitHub</a>.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs.</p>
+    <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("button.copy").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var text = button.parentElement.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      button.textContent = "Copied";
+    });
+  });
+});
+</script>
+</body>
+</html>
