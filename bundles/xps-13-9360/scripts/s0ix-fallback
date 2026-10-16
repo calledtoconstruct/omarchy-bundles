@@ -1,0 +1,181 @@
+#!/bin/bash
+
+# Installed by scripts/apply. After a completed s2idle whose S0ix counter does
+# not move, ask systemd to use ACPI S3 next time. A BIOS change measures one
+# more s2idle. Hibernation is ignored.
+
+set -euo pipefail
+
+root=${XPS9360_ROOT:-}
+mem_sleep_file=${XPS9360_MEM_SLEEP_FILE:-/sys/power/mem_sleep}
+residency_file=${XPS9360_S0IX_RESIDENCY_FILE:-/sys/devices/system/cpu/cpuidle/low_power_idle_system_residency_us}
+success_file=${XPS9360_SUSPEND_SUCCESS_FILE:-/sys/power/suspend_stats/success}
+bios_file=${XPS9360_BIOS_FILE:-/sys/class/dmi/id/bios_version}
+uptime_file=${XPS9360_UPTIME_FILE:-/proc/uptime}
+drop_in=${XPS9360_S0IX_DROP_IN:-$root/etc/systemd/sleep.conf.d/xps-9360-s0ix.conf}
+probe_file=${XPS9360_S0IX_PROBE_FILE:-$root/run/xps-9360-s0ix-probe}
+min_seconds=${XPS9360_S0IX_MIN_SECONDS:-30}
+conf_roots=${XPS9360_SLEEP_CONF_ROOTS:-$root/etc/systemd/sleep.conf $root/etc/systemd/sleep.conf.d $root/usr/lib/systemd/sleep.conf.d $root/run/systemd/sleep.conf.d}
+
+case ${2:-} in
+  suspend-then-hibernate) action=${SYSTEMD_SLEEP_ACTION:-suspend} ;;
+  *) action=${2:-} ;;
+esac
+
+read_whole() {
+  local file=$1
+  [[ -f $file ]] || return 1
+  printf '%s' "$(<"$file")"
+}
+
+read_int() {
+  local file=$1 raw
+  raw=$(read_whole "$file") || return 1
+  raw=${raw%%.*}
+  raw=${raw%% *}
+  [[ $raw =~ ^[0-9]+$ ]] || return 1
+  printf '%s\n' "$raw"
+}
+
+bios_version() {
+  local bios
+  bios=$(read_whole "$bios_file") || return 1
+  bios=${bios//$'\n'/}
+  [[ $bios =~ ^[A-Za-z0-9._-]+$ ]] || return 1
+  printf '%s\n' "$bios"
+}
+
+drop_in_text() {
+  printf '# xps-9360-s0ix bios=%s\n[Sleep]\nMemorySleepMode=deep\n' "$1"
+}
+
+recorded_bios() {
+  local line
+  [[ -f $drop_in ]] || return 1
+  IFS= read -r line <"$drop_in" || return 1
+  [[ $line =~ ^#\ xps-9360-s0ix\ bios=([A-Za-z0-9._-]+)$ ]] || return 1
+  printf '%s\n' "${BASH_REMATCH[1]}"
+}
+
+drop_in_is_ours() {
+  local bios text
+  bios=$(recorded_bios) || return 1
+  text=$(drop_in_text "$bios")
+  [[ $(<"$drop_in") == "$text" ]]
+}
+
+write_drop_in() {
+  mkdir -p "$(dirname "$drop_in")"
+  drop_in_text "$1" >"$drop_in"
+}
+
+remove_our_drop_in() {
+  drop_in_is_ours || return 0
+  rm -f "$drop_in"
+}
+
+memory_sleep_mode_is_foreign() {
+  local root file line
+  local -a files
+  shopt -s nullglob
+  for root in $conf_roots; do
+    [[ -e $root ]] || continue
+    if [[ -f $root ]]; then
+      files=("$root")
+    else
+      files=("$root"/*.conf)
+    fi
+    for file in "${files[@]}"; do
+      [[ $file == "$drop_in" ]] && continue
+      [[ -f $file ]] || continue
+      while IFS= read -r line; do
+        [[ $line =~ ^[[:space:]]*# ]] && continue
+        if [[ $line =~ ^[[:space:]]*MemorySleepMode= ]]; then
+          shopt -u nullglob
+          return 0
+        fi
+      done <"$file"
+    done
+  done
+  shopt -u nullglob
+  return 1
+}
+
+mem_sleep_selected() {
+  local line token selected=""
+  line=$(read_whole "$mem_sleep_file") || return 1
+  for token in $line; do
+    [[ $token == \[*\] ]] || continue
+    selected=${token#\[}
+    selected=${selected%\]}
+  done
+  [[ -n $selected ]] || return 1
+  printf '%s\n' "$selected"
+}
+
+mem_sleep_offers_deep() {
+  local line token bare
+  line=$(read_whole "$mem_sleep_file") || return 1
+  for token in $line; do
+    bare=${token#\[}
+    bare=${bare%\]}
+    [[ $bare == deep ]] && return 0
+  done
+  return 1
+}
+
+probe_pre() {
+  local bios selected success residency uptime old_bios
+  [[ $action == suspend ]] || return 0
+  bios=$(bios_version) || return 0
+  if memory_sleep_mode_is_foreign; then
+    remove_our_drop_in
+    return 0
+  fi
+  if [[ -f $drop_in ]]; then
+    if drop_in_is_ours; then
+      old_bios=$(recorded_bios) || return 0
+      if [[ $old_bios == "$bios" ]]; then
+        return 0
+      fi
+      rm -f "$drop_in"
+    else
+      return 0
+    fi
+  fi
+  mem_sleep_offers_deep || return 0
+  selected=$(mem_sleep_selected) || return 0
+  [[ $selected == s2idle ]] || return 0
+  success=$(read_int "$success_file") || return 0
+  residency=$(read_int "$residency_file") || return 0
+  uptime=$(read_int "$uptime_file") || return 0
+  mkdir -p "$(dirname "$probe_file")"
+  printf '%s %s %s %s\n' "$success" "$residency" "$uptime" "$bios" >"$probe_file"
+}
+
+probe_post() {
+  local success residency uptime bios previous_success previous_residency previous_uptime previous_bios
+  [[ $action == suspend ]] || return 0
+  [[ -f $probe_file ]] || return 0
+  read -r previous_success previous_residency previous_uptime previous_bios <"$probe_file" || {
+    rm -f "$probe_file"
+    return 0
+  }
+  rm -f "$probe_file"
+  success=$(read_int "$success_file") || return 0
+  residency=$(read_int "$residency_file") || return 0
+  uptime=$(read_int "$uptime_file") || return 0
+  bios=$(bios_version) || return 0
+  [[ $bios == "$previous_bios" ]] || return 0
+  (( success > previous_success )) || return 0
+  (( uptime - previous_uptime >= min_seconds )) || return 0
+  (( residency > previous_residency )) && return 0
+  memory_sleep_mode_is_foreign && return 0
+  write_drop_in "$bios"
+}
+
+case ${1:-} in
+  pre) probe_pre ;;
+  post) probe_post ;;
+esac
+exit 0

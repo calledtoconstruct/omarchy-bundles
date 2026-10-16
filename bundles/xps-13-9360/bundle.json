@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "packageType": "bundle",
+  "id": "xps-13-9360",
+  "name": "XPS 13 9360 power",
+  "version": "1.0.0",
+  "description": "Performance and power notes for the Dell XPS 13 9360. A script the owner can run, and a skill an agent uses to look around the machine.",
+  "introduction": "introduction.md",
+  "packages": [],
+  "aurPackages": [],
+  "plugins": [],
+  "skills": ["skills/power"],
+  "config": [],
+  "conflicts": []
+}

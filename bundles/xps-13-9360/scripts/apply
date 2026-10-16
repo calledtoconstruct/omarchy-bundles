@@ -1,0 +1,267 @@
+#!/bin/bash
+
+# Fixed tweaks for the Dell XPS 13 9360. Install does not run this script.
+
+set -euo pipefail
+
+here=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+root=${XPS9360_ROOT:-}
+product_file=${XPS9360_PRODUCT_FILE:-/sys/class/dmi/id/product_name}
+bios_file=${XPS9360_BIOS_FILE:-/sys/class/dmi/id/bios_version}
+pci_root=${XPS9360_PCI_ROOT:-/sys/bus/pci/devices}
+i915_dir=${XPS9360_I915_DIR:-/sys/module/i915/parameters}
+mem_sleep_file=${XPS9360_MEM_SLEEP_FILE:-/sys/power/mem_sleep}
+dmesg_file=${XPS9360_DMESG_FILE:-}
+state_dir=${XPS9360_STATE_DIR:-${XDG_STATE_HOME:-$HOME/.local/state}/omarchy/bundles/xps-13-9360}
+bios_state=$state_dir/bios
+limine_last=$state_dir/limine.last
+
+hook_dest=$root/usr/lib/systemd/system-sleep/xps-9360-s0ix-fallback
+ahci_rule=$root/etc/udev/rules.d/71-xps-9360-ahci-idle.rules
+profile_helper=$root/usr/local/lib/xps-9360/power-profile
+profile_rule=$root/etc/udev/rules.d/71-xps-9360-power-profile.rules
+limine_file=$root/etc/limine-entry-tool.d/xps-9360-power.conf
+
+full=0
+while (( $# > 0 )); do
+  case $1 in
+    --full) full=1 ;;
+    *)
+      printf 'unknown option: %s\n' "$1" >&2
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+read_whole() {
+  local file=$1
+  [[ -f $file ]] || return 1
+  printf '%s' "$(<"$file")"
+}
+
+strip_nl() {
+  local value=$1
+  value=${value//$'\n'/}
+  printf '%s\n' "$value"
+}
+
+as_root_install() {
+  local mode=$1 src=$2 dest=$3
+  mkdir -p "$(dirname "$dest")"
+  if [[ -n $root || $EUID -eq 0 ]]; then
+    install -m "$mode" "$src" "$dest"
+  else
+    sudo install -Dm"$mode" "$src" "$dest"
+  fi
+}
+
+place_file() {
+  local dest=$1 mode=$2 src=$3
+  if [[ -f $dest ]] && ! cmp -s "$src" "$dest"; then
+    printf 'kept %s\n' "$dest"
+    return 0
+  fi
+  if [[ -f $dest ]]; then
+    printf 'already %s\n' "$dest"
+    return 0
+  fi
+  as_root_install "$mode" "$src" "$dest"
+  printf 'installed %s\n' "$dest"
+}
+
+has_device() {
+  local want_vendor=$1 want_device=$2 dev vendor device
+  shopt -s nullglob
+  for dev in "$pci_root"/*; do
+    [[ -f $dev/vendor && -f $dev/device ]] || continue
+    vendor=$(strip_nl "$(<"$dev/vendor")")
+    device=$(strip_nl "$(<"$dev/device")")
+    if [[ $vendor == "$want_vendor" && $device == "$want_device" ]]; then
+      shopt -u nullglob
+      return 0
+    fi
+  done
+  shopt -u nullglob
+  return 1
+}
+
+ahci_is_empty() {
+  local dev vendor device remap class_file class found=0
+  shopt -s nullglob
+  for dev in "$pci_root"/*; do
+    [[ -f $dev/vendor && -f $dev/device ]] || continue
+    vendor=$(strip_nl "$(<"$dev/vendor")")
+    device=$(strip_nl "$(<"$dev/device")")
+    [[ $vendor == 0x8086 && $device == 0x282a ]] || continue
+    found=1
+    [[ -f $dev/remapped_nvme ]] || { shopt -u nullglob; return 1; }
+    remap=$(strip_nl "$(<"$dev/remapped_nvme")")
+    [[ $remap == 0 ]] || { shopt -u nullglob; return 1; }
+    for class_file in "$dev"/ata*/link*/dev*/ata_device/*/class; do
+      class=$(strip_nl "$(<"$class_file")")
+      [[ $class == unknown || -z $class ]] || { shopt -u nullglob; return 1; }
+    done
+    if [[ -f $dev/power/control ]]; then
+      printf 'auto\n' >"$dev/power/control"
+    fi
+  done
+  shopt -u nullglob
+  [[ $found -eq 1 ]]
+}
+
+offers_s2idle_and_deep() {
+  local line token bare selected="" deep=0
+  line=$(read_whole "$mem_sleep_file") || return 1
+  for token in $line; do
+    bare=${token#\[}
+    bare=${bare%\]}
+    [[ $token == \[*\] ]] && selected=$bare
+    [[ $bare == deep ]] && deep=1
+  done
+  [[ $selected == s2idle && $deep -eq 1 ]]
+}
+
+fadt_disables_aspm() {
+  local text=""
+  if [[ -n $dmesg_file ]]; then
+    [[ -f $dmesg_file ]] || return 1
+    text=$(<"$dmesg_file")
+  elif command -v journalctl >/dev/null 2>&1; then
+    text=$(journalctl -k -b --no-pager 2>/dev/null || true)
+  fi
+  [[ $text == *"doesn't support PCIe ASPM"* ]]
+}
+
+limine_text() {
+  local bios=$1
+  shift
+  printf '# xps-13-9360 power bios=%s\nKERNEL_CMDLINE[default]+=" %s"\n' "$bios" "$*"
+}
+
+confirm_full() {
+  local answer
+  [[ ${XPS9360_ASSUME_YES:-} == 1 ]] && return 0
+  printf 'Forcing PCIe ASPM can lock the machine, and turning off the IOMMU drops isolation for the iGPU. Continue? [y/N] ' >&2
+  IFS= read -r answer || answer=n
+  [[ $answer == y || $answer == Y ]]
+}
+
+run_limine() {
+  if [[ -n ${XPS9360_LIMINE:-} ]]; then
+    "$XPS9360_LIMINE"
+  elif [[ -z $root ]] && command -v limine-mkinitcpio >/dev/null 2>&1; then
+    if [[ $EUID -eq 0 ]]; then
+      limine-mkinitcpio
+    else
+      sudo limine-mkinitcpio
+    fi
+  fi
+}
+
+write_limine() {
+  local text=$1 tmp
+  tmp=$(mktemp)
+  printf '%s' "$text" >"$tmp"
+  if [[ -f $limine_file && -f $limine_last ]] && ! cmp -s "$limine_file" "$limine_last"; then
+    printf 'kept %s\n' "$limine_file"
+    rm -f "$tmp"
+    return 0
+  fi
+  if [[ -f $limine_file ]] && cmp -s "$tmp" "$limine_file"; then
+    printf 'already %s\n' "$limine_file"
+    rm -f "$tmp"
+    return 0
+  fi
+  as_root_install 644 "$tmp" "$limine_file"
+  mkdir -p "$state_dir"
+  cp -f "$limine_file" "$limine_last"
+  rm -f "$tmp"
+  printf 'installed %s\n' "$limine_file"
+  run_limine
+}
+
+tokens_from_last() {
+  local line
+  [[ -f $limine_last ]] || return 0
+  line=$(sed -n 's/.*KERNEL_CMDLINE\[default\]+=" \(.*\)"/\1/p' "$limine_last")
+  printf '%s\n' "$line"
+}
+
+product=$(read_whole "$product_file" || true)
+product=${product//$'\n'/}
+if [[ $product != "XPS 13 9360" ]]; then
+  printf 'This bundle applies only to the XPS 13 9360.\n'
+  exit 0
+fi
+
+bios=$(read_whole "$bios_file" || true)
+bios=${bios//$'\n'/}
+old_bios=""
+[[ -f $bios_state ]] && old_bios=$(strip_nl "$(<"$bios_state")")
+
+if [[ -n $old_bios && $old_bios != "$bios" && -f $limine_file && -f $limine_last ]] && cmp -s "$limine_file" "$limine_last"; then
+  tokens=()
+  read -r -a tokens <<<"$(tokens_from_last)"
+  kept=()
+  token=""
+  for token in "${tokens[@]}"; do
+    if [[ $token == "pcie_aspm=force" ]] && ! fadt_disables_aspm; then
+      continue
+    fi
+    kept+=("$token")
+  done
+  if (( ${#kept[@]} > 0 )); then
+    write_limine "$(limine_text "$bios" "${kept[@]}")"
+  fi
+elif [[ -n $old_bios && $old_bios != "$bios" && -f $limine_file && -f $limine_last ]] && ! cmp -s "$limine_file" "$limine_last"; then
+  printf 'kept %s\n' "$limine_file"
+fi
+
+if offers_s2idle_and_deep; then
+  place_file "$hook_dest" 755 "$here/s0ix-fallback"
+fi
+
+if ahci_is_empty; then
+  rule_tmp=$(mktemp)
+  cat >"$rule_tmp" <<'EOF'
+# Empty Intel RAID-mode SATA controller. Runtime suspend while NVMe is not remapped.
+ACTION=="bind|change", SUBSYSTEM=="pci", ATTR{vendor}=="0x8086", ATTR{device}=="0x282a", ATTR{remapped_nvme}=="0", ATTR{power/control}="auto"
+EOF
+  place_file "$ahci_rule" 644 "$rule_tmp"
+  rm -f "$rule_tmp"
+fi
+
+if command -v powerprofilesctl >/dev/null 2>&1; then
+  place_file "$profile_helper" 755 "$here/power-profile"
+  rule_tmp=$(mktemp)
+  printf 'ACTION=="change", SUBSYSTEM=="power_supply", RUN+="%s"\n' "$profile_helper" >"$rule_tmp"
+  place_file "$profile_rule" 644 "$rule_tmp"
+  rm -f "$rule_tmp"
+fi
+
+if has_device 0x8086 0x5926 && [[ -d $i915_dir ]]; then
+  param=""
+  for param in enable_psr enable_fbc enable_dc; do
+    [[ -f $i915_dir/$param ]] || continue
+    value=$(strip_nl "$(<"$i915_dir/$param")")
+    [[ $value == 0 ]] || continue
+    printf -- '-1\n' >"$i915_dir/$param"
+  done
+fi
+
+if [[ $full -eq 1 ]] && confirm_full; then
+  tokens=()
+  fadt_disables_aspm && tokens+=("pcie_aspm=force")
+  has_device 0x8086 0x5926 && tokens+=("intel_iommu=igfx_off")
+  if (( ${#tokens[@]} > 0 )); then
+    write_limine "$(limine_text "$bios" "${tokens[@]}")"
+  fi
+fi
+
+mkdir -p "$state_dir"
+if [[ ! -f $bios_state ]] || [[ $(strip_nl "$(<"$bios_state")") != "$bios" ]]; then
+  printf '%s\n' "$bios" >"$bios_state"
+else
+  printf 'already\n'
+fi

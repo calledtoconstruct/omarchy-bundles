@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Installed by scripts/apply. Balanced while AC is online, power-saver on battery.
+
+set -euo pipefail
+
+online_file=${XPS9360_AC_ONLINE_FILE:-/sys/class/power_supply/AC/online}
+online=0
+if [[ -f $online_file ]]; then
+  online=$(<"$online_file")
+  online=${online//$'\n'/}
+fi
+
+if [[ $online == 1 ]]; then
+  powerprofilesctl set balanced
+else
+  powerprofilesctl set power-saver
+fi
