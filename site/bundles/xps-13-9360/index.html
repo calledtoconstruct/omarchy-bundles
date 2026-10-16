@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>XPS 13 9360 power · Omarchy bundles</title>
+<link rel="stylesheet" href="../../css/site.css">
+</head>
+<body>
+<a class="skip" href="#content">Skip to content</a>
+<header class="site">
+  <div class="wrap brand">
+    <a class="mark" href="../../index.html">Omarchy bundles</a>
+    <nav>
+      <a href="https://github.com/calledtoconstruct/omarchy-bundles">Catalog source</a>
+      <a href="https://github.com/omacom/omarchy/pull/15603">Command pull request</a>
+    </nav>
+  </div>
+</header>
+
+<main id="content" class="detail">
+  <div class="wrap">
+    <p class="kicker"><a href="../../index.html">All bundles</a> · xps-13-9360 · 1.0.0</p>
+    <h1>XPS 13 9360 power</h1>
+    <p class="lede">Performance and power notes for the Dell XPS 13 9360. A script the owner can run, and a skill an agent uses to look around the machine.</p>
+    <p class="notice">This catalog is not part of stock Omarchy. The omarchy bundle command is proposed in pull request 15603. A git URL installs only a repository whose root contains bundle.json, and that command warns the source is unreviewed. Each bundle here lives in a subfolder, so the command clones this catalog and adds that folder.</p>
+    <div class="install">
+      <div class="row"><p>Install this bundle</p><button class="copy" type="button">Copy command</button></div>
+      <pre><code>git clone https://github.com/calledtoconstruct/omarchy-bundles.git
+omarchy bundle add ./omarchy-bundles/bundles/xps-13-9360</code></pre>
+    </div>
+    <div class="facts">
+      <section><h2>Arch packages</h2><p class="empty">None.</p></section>
+      <section><h2>AUR packages</h2><p class="empty">None.</p></section>
+      <section><h2>Plugins</h2><p class="empty">None.</p></section>
+      <section><h2>Skills</h2><ul><li><code>power</code></li></ul></section>
+      
+      
+      <section><h2>Project</h2><p class="empty">This bundle does not create a project folder.</p></section>
+    </div>
+    <article class="prose">
+      <h2>XPS 13 9360 power</h2>
+<p>This install copied a script and linked a skill. It did not change how this laptop sleeps, how fast it runs on AC power, or what the kernel does with the disk and the GPU.</p>
+<p>You can apply changes in either of two ways.</p>
+<p>Run the fixed script:</p>
+<pre><code>~/.local/share/omarchy-bundles/xps-13-9360/scripts/apply</code></pre>
+<p>That script checks this is an XPS 13 9360, then applies the set it knows. A normal run can switch the power profile to balanced on AC and power-saver on battery. Add <code>--full</code> and it asks before forcing PCIe ASPM or turning the IOMMU off for the Iris Plus 640. Those two can lock the machine or drop a layer of isolation. Run the script again after a BIOS update. It drops a tweak the new BIOS no longer needs, and it leaves a file you edited.</p>
+<p>Or ask your agent to apply the changes. In that case, the agent investigates and repairs on its own. The skill tells it where to look and which changes can freeze the machine, stop it waking, drop Wi-Fi, or make it run hot. What the agent writes can differ from the script, and it can cover a problem the script does not.</p>
+      <p><a href="https://github.com/calledtoconstruct/omarchy-bundles/tree/main/bundles/xps-13-9360">Read this bundle on GitHub</a>.</p>
+    </article>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p>A community catalog of activity bundles. Not an official Omarchy site, and not a review of the packages a bundle installs. In Chromium on Omarchy, the Theme Sync extension paints these pages with the desktop palette. Other browsers keep the paper colors.</p>
+    <p><a href="https://github.com/omacom/omarchy/discussions/13551">Discussion 13551</a> asked whether a bundle should be a registry type. <code>publisher/name</code> still is not served.</p>
+  </div>
+</footer>
+<script>
+document.querySelectorAll("button.copy").forEach(function (button) {
+  button.addEventListener("click", function () {
+    var text = button.parentElement.nextElementSibling.textContent;
+    navigator.clipboard.writeText(text).then(function () {
+      button.textContent = "Copied";
+    });
+  });
+});
+</script>
+</body>
+</html>

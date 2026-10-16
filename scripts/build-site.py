@@ -12,7 +12,7 @@ BUNDLES = ROOT / "bundles"
 OUT = ROOT / "site"
 CSS_SOURCE = Path(__file__).with_name("site.css")
 CATALOG = "https://github.com/calledtoconstruct/omarchy-bundles"
-ORDER = ["webdev", "creator", "local-ai", "study", "gaming", "cyber", "backup"]
+ORDER = ["webdev", "creator", "local-ai", "study", "gaming", "cyber", "backup", "xps-13-9360"]
 
 NOTICE = (
     "This catalog is not part of stock Omarchy. The omarchy bundle command is "
@@ -205,7 +205,7 @@ def render_index(bundles):
 <main id="content">
   <div class="wrap hero">
     <h1>Activities you can add and remove.</h1>
-    <p class="lede">Seven bundles group the packages, plugins, skills, and config for one kind of work. Copy the install command, then read what that bundle changes.</p>
+    <p class="lede">{len(bundles)} bundles group the packages, plugins, skills, and config for one kind of work. Copy the install command, then read what that bundle changes.</p>
     <p class="notice">{escape(NOTICE)}</p>
   </div>
   <div class="wrap grid">
